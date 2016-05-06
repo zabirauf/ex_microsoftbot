@@ -1,4 +1,4 @@
-defmodule MicrosoftBot.Models.Location do
+defmodule ExMicrosoftBot.Models.Location do
   @moduledoc """
   Microsoft bot location structure
   """
@@ -6,12 +6,12 @@ defmodule MicrosoftBot.Models.Location do
   @derive [Poison.Encoder]
   defstruct [:altitude, :latitude, :longitude, :name]
 
-  @type t :: %MicrosoftBot.Models.Location {
+  @type t :: %ExMicrosoftBot.Models.Location {
     altitude: integer, latitude: integer, longitude: integer, name: String.t
   }
 
   @doc false
   def decoding_map do
-    %MicrosoftBot.Models.Location{}
+    %ExMicrosoftBot.Models.Location{}
   end
 end

@@ -1,4 +1,4 @@
-defmodule MicrosoftBot.Models.Attachment do
+defmodule ExMicrosoftBot.Models.Attachment do
   @moduledoc """
   Microsoft bot attachment structure within the message
   """
@@ -9,16 +9,16 @@ defmodule MicrosoftBot.Models.Attachment do
     :text, :thumbnailUrl, :actions
   ]
 
-  @type t :: %MicrosoftBot.Models.Attachment{
+  @type t :: %ExMicrosoftBot.Models.Attachment{
     contentType: String.t, contentUrl: String.t, content: map, fallbackText: String.t,
     title: String.t, titleLink: String.t, text: String.t, thumbnailUrl: String.t,
-    actions: [MicrosoftBot.Models.Action.t]
+    actions: [ExMicrosoftBot.Models.Action.t]
   }
 
   @doc false
   def decoding_map do
-    %MicrosoftBot.Models.Attachment {
-      "actions": [MicrosoftBot.Models.Action.decoding_map]
+    %ExMicrosoftBot.Models.Attachment {
+      "actions": [ExMicrosoftBot.Models.Action.decoding_map]
     }
   end
 end

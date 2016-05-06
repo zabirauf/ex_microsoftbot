@@ -1,4 +1,4 @@
-defmodule MicrosoftBot.Models.ChannelAccount do
+defmodule ExMicrosoftBot.Models.ChannelAccount do
   @moduledoc """
   Microsoft bot channel account structure which corresponde to a user or bot
   """
@@ -8,13 +8,13 @@ defmodule MicrosoftBot.Models.ChannelAccount do
     :name, :channelId, :address, :id, :isBot
   ]
 
-  @type t :: %MicrosoftBot.Models.ChannelAccount{
+  @type t :: %ExMicrosoftBot.Models.ChannelAccount{
     name: String.t, channelId: String.t, address: String.t, id: String.t,
     id: String.t, isBot: boolean
   }
 
   @doc false
   def decoding_map do
-    %MicrosoftBot.Models.ChannelAccount{}
+    %ExMicrosoftBot.Models.ChannelAccount{}
   end
 end

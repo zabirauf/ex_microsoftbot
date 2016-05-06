@@ -1,4 +1,4 @@
-defmodule MicrosoftBot.Models.BotData do
+defmodule ExMicrosoftBot.Models.BotData do
   @moduledoc """
   Microsoft bot data structure
   """
@@ -6,29 +6,37 @@ defmodule MicrosoftBot.Models.BotData do
   @derive [Poison.Encoder]
   defstruct [:data, :eTag]
 
-  @type t :: %MicrosoftBot.Models.BotData {
+  @type t :: %ExMicrosoftBot.Models.BotData {
     data: map,
     eTag: String.t
   }
 
   @doc """
-  Decode a map into `MicrosoftBot.Models.BotData`
+  Decode a map into `ExMicrosoftBot.Models.BotData`
   """
-  @spec parse(map) :: MicrosoftBot.Models.BotData.t
+  @spec parse(map) :: {:ok, ExMicrosoftBot.Models.BotData.t}
   def parse(param) when is_map(param) do
-    Poision.Decode.decode(param, as: decoding_map)
+    {:ok, Poison.Decode.decode(param, as: decoding_map)}
   end
 
   @doc """
-  Decode a string into `MicrosoftBot.Models.BotData`
+  Decode a string into `ExMicrosoftBot.Models.BotData`
   """
-  @spec parse(String.t) :: MicrosoftBot.Models.BotData.t
+  @spec parse(String.t) :: ExMicrosoftBot.Models.BotData.t
   def parse(param) when is_binary(param) do
     Poison.decode!(param, as: decoding_map)
   end
 
+  @doc """
+  Encodes the `ExMicrosoftBot.Models.BotData` to json string
+  """
+  @spec serialize(ExMicrosoftBot.Models.BotData.t) :: String.t
+  def serialize(%ExMicrosoftBot.Models.BotData{} = bot_data) do
+    Poison.encode!(bot_data)
+  end
+
   @doc false
   def decoding_map do
-    %MicrosoftBot.Models.BotData{}
+    %ExMicrosoftBot.Models.BotData{}
   end
 end
