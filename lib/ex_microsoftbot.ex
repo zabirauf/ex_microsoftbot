@@ -17,7 +17,7 @@ defmodule ExMicrosoftBot.Client do
   def send_message(%Models.AuthData{} = auth_data, %{} = message) do
     api_endpoint = "#{@endpoint}/bot/v1.0/messages"
 
-    HTTPotion.post(api_endpoint, [body: Poision.encode!(message), headers: headers(auth_data, api_endpoint)])
+    HTTPotion.post(api_endpoint, [body: Poison.encode!(message), headers: headers(auth_data, api_endpoint)])
     |> deserialize_response(&Models.Message.parse/1)
   end
 
