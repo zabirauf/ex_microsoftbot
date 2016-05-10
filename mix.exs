@@ -5,9 +5,26 @@ defmodule ExMicrosoftbot.Mixfile do
     [app: :ex_microsoftbot,
      version: "0.1.0",
      elixir: "~> 1.2",
+     description: description,
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     package: package,
      deps: deps]
+  end
+
+  def description do
+    "This library provides Elixir API wrapper for the Microsoft Bot Framework."
+  end
+
+  defp package do
+    [
+      licenses: ["MIT License"],
+      maintainers: ["Zohaib Rauf"],
+      links: %{
+        "Github" => "https://github.com/zabirauf/ex_microsoftbot",
+        "Docs" => "https://hexdocs.pm/ex_microsoftbot/"
+      }
+    ]
   end
 
   # Configuration for the OTP application
