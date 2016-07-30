@@ -3,7 +3,7 @@ defmodule ExMicrosoftbot.Mixfile do
 
   def project do
     [app: :ex_microsoftbot,
-     version: "0.1.0",
+     version: "1.0.0",
      elixir: "~> 1.2",
      description: description,
      build_embedded: Mix.env == :prod,
@@ -47,6 +47,7 @@ defmodule ExMicrosoftbot.Mixfile do
     [
       {:httpotion, "~> 2.2"},
       {:poison, "~> 2.1"},
+      {:jose, "~> 1.7"},
       {:inch_ex, ">= 0.0.0", only: :docs},
       {:dialyxir, "~> 0.3", only: [:dev]},
       {:ex_doc, "~> 0.11.5", only: [:dev]}

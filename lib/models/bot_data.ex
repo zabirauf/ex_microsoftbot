@@ -37,6 +37,8 @@ defmodule ExMicrosoftBot.Models.BotData do
 
   @doc false
   def decoding_map do
-    %ExMicrosoftBot.Models.BotData{}
+    %ExMicrosoftBot.Models.BotData{
+      "data": %{}
+    }
   end
 end

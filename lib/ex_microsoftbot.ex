@@ -98,28 +98,28 @@ defmodule ExMicrosoftBot.Client do
     |> Map.get("authorization", nil)
 
     case auth_header do
-      "Basic " <> val -> val == create_encoded_auth_headers(auth_data)
+      "Bearer " <> _val -> false #TODO: Have to update the whole of the function
       _ -> false
     end
   end
 
-  defp deserialize_response(%HTTPotion.Response{status_code: 200, body: body}, deserialize_func) do
+  def deserialize_response(%HTTPotion.Response{status_code: 200, body: body}, deserialize_func) do
     {:ok, deserialize_func.(body)}
   end
 
-  defp deserialize_response(%HTTPotion.Response{status_code: status_code, body: body}, _deserialize_func) do
+  def deserialize_response(%HTTPotion.Response{status_code: status_code, body: body}, _deserialize_func) do
     {:error, status_code, body}
   end
 
-  defp headers(auth_data, uri) do
+  def headers(token, uri) do
     Keyword.merge([
       "Content-Type": "application/json",
       "Accept": "application/json"
-    ], create_auth_headers(auth_data, uri))
+    ], create_auth_headers(token, uri))
   end
 
-  defp create_auth_headers(auth_data, uri) do
-    is_https(uri) |> auth_headers(auth_data)
+  defp create_auth_headers(token, uri) do
+    is_https(uri) |> auth_headers(token)
   end
 
   defp is_https(uri) do
@@ -128,18 +128,10 @@ defmodule ExMicrosoftBot.Client do
   end
 
   defp auth_headers(false = _is_https, _auth_data), do: []
-  defp auth_headers(true = _is_https, auth_data) do
-    authorization_header = create_encoded_auth_headers(auth_data)
-
+  defp auth_headers(true = _is_https, token) do
     [
-      "Ocp-Apim-Subscription-Key": auth_data.app_secret,
-      "Authorization": "Basic #{authorization_header}"
+      "Authorization": "Bearer #{token}"
     ]
-  end
-
-  defp create_encoded_auth_headers(auth_data) do
-    "#{auth_data.app_id}:#{auth_data.app_secret}"
-    |> Base.encode64
   end
 
 end
