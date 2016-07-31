@@ -8,7 +8,7 @@ defmodule ExMicrosoftBot.Client.Attachments do
   alias ExMicrosoftBot.Client
   alias ExMicrosoftBot.TokenManager
 
-  @endpoint "https://api.botframework.com"
+  @endpoint Application.get_env(:ex_microsoftbot, :endpoint)
 
   @doc """
   Get AttachmentInfo structure describing the attachment views. [API Reference](https://docs.botframework.com/en-us/restapi/connector/#!/Attachments/Attachments_GetAttachmentInfo)

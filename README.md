@@ -2,7 +2,7 @@
 
 # Elixir Microsoft Bot Client 
 
-This library provides Elixir API wrapper for the Microsoft Bot Framework.
+This library provides Elixir API wrapper for the Microsoft Bot Framework and authentication to it.
 
 ## Documentation
 
@@ -13,7 +13,7 @@ API documentation is available at [https://hexdocs.pm/ex_microsofbot](https://he
   1. Add `ex_microsoftbot` to your list of dependencies in `mix.exs`:
 
         def deps do
-          [{:ex_microsoftbot, "~> 0.1.0"}]
+          [{:ex_microsoftbot, "~> 1.0.0"}]
         end
         
   2. Start the `ex_microsoftbot`:
@@ -22,14 +22,14 @@ API documentation is available at [https://hexdocs.pm/ex_microsofbot](https://he
           [applications: [:ex_microsoftbot]]
         end
         
+  3. Set the environment variables for the bot *App id* and *App Password*
+        
 ## Usage
 
-The module `ExMicrosoftBot.Client` contains the functions to call the Microsoft bot API. For example
+The modules `ExMicrosoftBot.Client.Attachments, ExMicrosoftBot.Client.Conversations, ExMicrosoftBot.Client.BotState` contains the functions to call the corresponding API of Microsoft Bot Framework. For example
 
 ```
-auth_data = %ExMicrosoftBot.Models.AuthData{app_id: "APPID", app_secret: "APP_SECRET"}
-
-bot_data = ExMicrosoftBot.Client.get_user_data(auth_data, bot_id, user_id)
+bot_data = ExMicrosoftBot.Client.BotState.get_user_data(channel_id, user_id)
 
 %ExMicrosoftBot.Models.BotData{data: %{}, eTag: "string"}
 ```

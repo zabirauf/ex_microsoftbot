@@ -8,7 +8,7 @@ defmodule ExMicrosoftBot.Client.Conversations do
   alias ExMicrosoftBot.Client
   alias ExMicrosoftBot.TokenManager
 
-  @endpoint "https://api.botframework.com"
+  @endpoint Application.get_env(:ex_microsoftbot, :endpoint)
   @conversations_endpoint "#{@endpoint}/v3/conversations"
 
   @doc """
@@ -57,7 +57,7 @@ defmodule ExMicrosoftBot.Client.Conversations do
     end
 
     HTTPotion.get(api_endpoint, [headers: headers(TokenManager.get_token, api_endpoint)])
-    |> deserialize_response(Models.ChannelAccount.parse/1) # TODO: Check if this works as it is an array
+    |> deserialize_response(&Models.ChannelAccount.parse/1) # TODO: Check if this works as it is an array
   end
 
   @doc """

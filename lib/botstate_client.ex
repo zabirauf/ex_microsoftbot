@@ -8,7 +8,7 @@ defmodule ExMicrosoftBot.Client.BotState do
   alias ExMicrosoftBot.Client
   alias ExMicrosoftBot.TokenManager
 
-  @endpoint "https://api.botframework.com"
+  @endpoint Application.get_env(:ex_microsoftbot, :endpoint)
   @botstate_endpoint "#{@endpoint}/v3/botstate"
 
   @doc """
@@ -40,7 +40,7 @@ defmodule ExMicrosoftBot.Client.BotState do
   def set_user_data(channel_id, user_id, %Models.BotData{} = data) do
     api_endpoint = "#{@botstate_endpoint}/#{channel_id}/users/#{user_id}"
 
-    HTTPotion.post(api_endpoint, [body: Poision.encode!(data), headers: headers(TokenManager.get_token, api_endpoint)])
+    HTTPotion.post(api_endpoint, [body: Poison.encode!(data), headers: headers(TokenManager.get_token, api_endpoint)])
     |> deserialize_response(&Models.BotData.parse/1)
   end
 
