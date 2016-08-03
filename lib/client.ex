@@ -3,6 +3,8 @@ defmodule ExMicrosoftBot.Client do
   Use the Microsoft bot framework to create bots for multiple different platforms.
   """
 
+  require Logger
+
   @type error_type :: {:error, integer, String.t}
 
   def deserialize_response(%HTTPotion.Response{status_code: 200, body: body}, deserialize_func) do
@@ -10,7 +12,14 @@ defmodule ExMicrosoftBot.Client do
   end
 
   def deserialize_response(%HTTPotion.Response{status_code: status_code, body: body}, _deserialize_func) do
+    Logger.debug "Error response: #{status_code}: #{body}"
     {:error, status_code, body}
+  end
+
+  def deserialize_response(%HTTPotion.ErrorResponse{message: message} = resp, _deserialize_func) do
+    Logger.debug "deserialize_response/2: Error response: #{message}"
+    Logger.debug "deserialize_response/2: Error response: #{inspect(resp)}"
+    {:error, 0, message}
   end
 
   def headers(token, uri) do

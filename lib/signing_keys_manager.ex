@@ -15,6 +15,10 @@ defmodule ExMicrosoftBot.SigningKeysManager do
     get_state()
   end
 
+  def force_refresh_keys() do
+    force_refresh_state()
+  end
+
   #######################################
   ##### Refreshable Agent Callbacks #####
   #######################################
@@ -27,6 +31,7 @@ defmodule ExMicrosoftBot.SigningKeysManager do
     # 5 Days to expire the signing keys
     Timex.Duration.from_days(5)
     |> Timex.Duration.to_seconds
+    |> Kernel.round # Rounding it as to_seconds return in scientific notation
   end
 
   ###############################
@@ -36,17 +41,17 @@ defmodule ExMicrosoftBot.SigningKeysManager do
 
   defp get_microsoft_bot_keys() do
     %{"jwks_uri" => uri} = get_wellknown_key_uri()
-    %{"keys" => keys}= get_json_from_uri(uri)
 
-    keys
-    |> Enum.map(fn (key) ->
-      JOSE.JWK.from_map(key)
-    end)
+    {:ok, %{"keys" => keys}} = get_json_from_uri(uri)
+
+    Enum.map(keys, &JOSE.JWK.from_map/1)
   end
 
   defp get_wellknown_key_uri() do
-    "https://api.aps.skype.com/v1/.well-known/openidconfiguration"
+    {:ok, resp} = "https://api.aps.skype.com/v1/.well-known/openidconfiguration"
     |> get_json_from_uri
+
+    resp
   end
 
   defp get_json_from_uri(uri) do
