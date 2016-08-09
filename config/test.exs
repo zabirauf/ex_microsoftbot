@@ -8,4 +8,5 @@ config :ex_microsoftbot,
   openid_valid_keys_url: "https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration",
   issuer_claim: "https://sts.windows.net/72f988bf-86f1-41af-91ab-2d7cd011db47/",
   audience_claim: "https://graph.microsoft.com",
-  bot_emulator_extra_validation: true
+  using_bot_emulator: true,
+  disable_token_validation: true

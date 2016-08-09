@@ -11,21 +11,18 @@ defmodule ExMicrosoftBot do
   ```
   """
 
-  require Logger
-  use Supervisor
+  use Application
 
-  def start_link do
-    Logger.info "In Application start link"
-    Supervisor.start_link(__MODULE__, :ok)
-  end
+  def start(_type, _args) do
+    import Supervisor.Spec, warn: false
 
-  def init(:ok) do
     children = [
       worker(ExMicrosoftBot.TokenManager, [get_auth_data]),
       worker(ExMicrosoftBot.SigningKeysManager, [])
     ]
 
-    supervise(children, strategy: :one_for_one)
+    opts = [strategy: :one_for_one, name: ExMicrosoftBot.Supervisor]
+    Supervisor.start_link(children, opts)
   end
 
   defp get_auth_data do

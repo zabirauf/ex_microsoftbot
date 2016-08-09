@@ -17,6 +17,22 @@ defmodule ExMicrosoftBot.Models.Attachment do
     thumbnailUrl: String.t
   }
 
+  @doc """
+  Decode a map into `ExMicrosoftBot.Models.Attachment`
+  """
+  @spec parse(map) :: {:ok, ExMicrosoftBot.Models.Attachment.t}
+  def parse(param) when is_map(param) do
+    {:ok, Poison.Decode.decode(param, as: decoding_map)}
+  end
+
+  @doc """
+  Decode a string into `ExMicrosoftBot.Models.Attachment`
+  """
+  @spec parse(String.t) :: ExMicrosoftBot.Models.Attachment.t
+  def parse(param) when is_binary(param) do
+    Poison.decode!(param, as: decoding_map)
+  end
+
   @doc false
   def decoding_map do
     %ExMicrosoftBot.Models.Attachment {

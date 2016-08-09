@@ -14,6 +14,10 @@ defmodule ExMicrosoftBot.RefreshableAgent do
       ##### Functions to interact with GenServer #####
       ################################################
 
+      def start_link() do
+        start_link([])
+      end
+
       def start_link(args) do
         GenServer.start_link(__MODULE__, args, name: __MODULE__)
       end
@@ -55,9 +59,6 @@ defmodule ExMicrosoftBot.RefreshableAgent do
       ####### Helper functions ######
       ###############################
 
-      @doc """
-      Get the state
-      """
       @spec get_state() :: any
       defp get_state() do
         GenServer.call(__MODULE__, :get_state)

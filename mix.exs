@@ -31,7 +31,14 @@ defmodule ExMicrosoftbot.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :httpotion, :tzdata, :timex]]
+    [mod: {ExMicrosoftBot, []},
+     env: [endpoint: "https://api.botframework.com",
+           openid_valid_keys_url: "https://api.aps.skype.com/v1/.well-known/openidconfiguration",
+           issuer_claim: "https://api.botframework.com",
+           audience_claim: Application.get_env(:ex_microsoftbot, :app_id),
+           disable_token_validation: false],
+     registered: [ExMicrosoftBot.TokenManager, ExMicrosoftBot.SigningKeysManager],
+     applications: [:logger, :httpotion, :tzdata, :timex]]
   end
 
   # Dependencies can be Hex packages:

@@ -35,6 +35,22 @@ defmodule ExMicrosoftBot.Models.Activity do
     replyToId: String.t
   }
 
+  @doc """
+  Decode a map into `ExMicrosoftBot.Models.Activity`
+  """
+  @spec parse(map) :: {:ok, ExMicrosoftBot.Models.Activity.t}
+  def parse(param) when is_map(param) do
+    {:ok, Poison.Decode.decode(param, as: decoding_map)}
+  end
+
+  @doc """
+  Decode a string into `ExMicrosoftBot.Models.Activity`
+  """
+  @spec parse(String.t) :: ExMicrosoftBot.Models.Activity.t
+  def parse(param) when is_binary(param) do
+    Poison.decode!(param, as: decoding_map)
+  end
+
   @doc false
   def decoding_map do
     %ExMicrosoftBot.Models.Activity {

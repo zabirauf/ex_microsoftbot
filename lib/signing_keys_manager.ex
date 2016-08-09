@@ -1,5 +1,4 @@
 defmodule ExMicrosoftBot.SigningKeysManager do
-  require Logger
   use ExMicrosoftBot.RefreshableAgent
 
   alias ExMicrosoftBot.Client
@@ -50,7 +49,6 @@ defmodule ExMicrosoftBot.SigningKeysManager do
   defp get_wellknown_key_uri() do
     keys_url = Application.get_env(:ex_microsoftbot, :openid_valid_keys_url)
 
-    Logger.debug "The valid keys url is #{keys_url}"
     {:ok, resp} = keys_url
     |> get_json_from_uri
 

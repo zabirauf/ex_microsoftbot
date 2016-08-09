@@ -38,8 +38,16 @@ defmodule ExMicrosoftBot.Client do
     scheme == "https"
   end
 
-  defp auth_headers(false = _is_https, _auth_data), do: []
-  defp auth_headers(true = _is_https, token) do
+  defp auth_headers(is_https, auth_data) do
+    auth_headers(is_https, auth_data, Application.get_env(:ex_microsoftbot, :using_bot_emulator))
+  end
+
+  defp auth_headers(false = _is_https, _auth_data, true) do
+    [
+      "Authorization": "Bearer"
+    ]
+  end
+  defp auth_headers(true = _is_https, token, _) do
     [
       "Authorization": "Bearer #{token}"
     ]

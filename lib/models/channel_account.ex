@@ -10,6 +10,7 @@ defmodule ExMicrosoftBot.Models.ChannelAccount do
     id: String.t,
     name: String.t
   }
+
   @doc """
   Decode a map into `ExMicrosoftBot.Models.ChannelAccount`
   """
