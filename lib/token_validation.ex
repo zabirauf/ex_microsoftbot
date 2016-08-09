@@ -57,8 +57,8 @@ defmodule ExMicrosoftBot.TokenValidation do
   defp contains_valid_app_id_claim?(%JOSE.JWT{} = jwt) do
     contains_valid_app_id_claim?(jwt, Application.get_env(:ex_microsoftbot, :bot_emulator_extra_varification))
   end
-  defp contains_valid_app_id_claim?(%JOSE.JWT{fields: %{"appid" => app_id}}, :ok), do: app_id == Application.get_env(:ex_microsoftbot, :app_id)
-  defp contains_valid_app_id_claim?(_, :ok), do: false # In case extra bot validation is required and app id isn't in claim then fail
+  defp contains_valid_app_id_claim?(%JOSE.JWT{fields: %{"appid" => app_id}}, true), do: app_id == Application.get_env(:ex_microsoftbot, :app_id)
+  defp contains_valid_app_id_claim?(_, true), do: false # In case extra bot validation is required and app id isn't in claim then fail
   defp contains_valid_app_id_claim?(_, _), do: true # This will occur for prod
 
   defp token_not_expired?(%JOSE.JWT{fields: %{"exp" => expiry}}) do
