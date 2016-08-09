@@ -7,7 +7,7 @@ defmodule ExMicrosoftBot.TokenValidation do
   require Logger
   alias ExMicrosoftBot.SigningKeysManager
 
-  @expected_issuer_claim "https://api.botframework.com"
+  @expected_issuer_claim Application.get_env(:ex_microsoftbot, :issuer_claim)
   @expected_audience_claim Application.get_env(:ex_microsoftbot, :app_id)
 
   @doc """
@@ -30,6 +30,7 @@ defmodule ExMicrosoftBot.TokenValidation do
     with {:ok, jwt, _jws} <- get_jwt_from_string(token),
           true <- contains_valid_issuer?(jwt),
           true <- contains_valid_audience?(jwt),
+          true <- contains_valid_app_id_claim?(jwt),
           true <- token_not_expired?(jwt),
           true <- has_valid_cryptographic_sig?(jwt)
           do
@@ -52,6 +53,13 @@ defmodule ExMicrosoftBot.TokenValidation do
 
   defp contains_valid_audience?(%JOSE.JWT{fields: %{"aud" => @expected_audience_claim}}), do: true
   defp contains_valid_audience?(%JOSE.JWT{}), do: false
+
+  defp contains_valid_app_id_claim?(%JOSE.JWT{} = jwt) do
+    contains_valid_app_id_claim?(jwt, Application.get_env(:ex_microsoftbot, :bot_emulator_extra_varification))
+  end
+  defp contains_valid_app_id_claim?(%JOSE.JWT{fields: %{"appid" => app_id}}, :ok), do: app_id == Application.get_env(:ex_microsoftbot, :app_id)
+  defp contains_valid_app_id_claim?(_, :ok), do: false # In case extra bot validation is required and app id isn't in claim then fail
+  defp contains_valid_app_id_claim?(_, _), do: true # This will occur for prod
 
   defp token_not_expired?(%JOSE.JWT{fields: %{"exp" => expiry}}) do
     with expiry_time <- Timex.from_unix(expiry),

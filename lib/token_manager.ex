@@ -36,9 +36,11 @@ defmodule ExMicrosoftBot.TokenManager do
     |> validate_token
   end
 
+  @doc """
+  The time to refresh which is taken from the response of the token
+  """
   def time_to_refresh_after_in_seconds([expiry_in_seconds: expiry_in_seconds]) do
-    expiry_time_in_seconds = (expiry_in_seconds - @default_time_gap_to_refresh_in_seconds)
-    expiry_time_in_seconds
+    (expiry_in_seconds - @default_time_gap_to_refresh_in_seconds)
   end
 
   ###############################
