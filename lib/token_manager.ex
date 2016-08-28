@@ -31,9 +31,9 @@ defmodule ExMicrosoftBot.TokenManager do
   Refresh the token by making a service call and then scheduling a message to
   this GenServer before token expires so that it can be refreshed
   """
-  def get_refreshed_state(%Models.AuthData{} = auth_data, _old_state) do
-    refresh_token(auth_data)
-    |> validate_token
+  def get_refreshed_state(%Models.AuthData{} = auth_data, old_state) do
+    Application.get_env(:ex_microsoftbot, :using_bot_emulator)
+    |> get_refreshed_state(auth_data, old_state)
   end
 
   @doc """
@@ -46,6 +46,15 @@ defmodule ExMicrosoftBot.TokenManager do
   ###############################
   ####### Helper functions ######
   ###############################
+
+  defp get_refreshed_state(true, %Models.AuthData{} = _auth_data, _old_state) do
+    %{token: "TestToken", expiry_in_seconds: 36000}
+  end
+
+  defp get_refreshed_state(_, %Models.AuthData{} = auth_data, _old_state) do
+    refresh_token(auth_data)
+    |> validate_token
+  end
 
   defp validate_token(%{token: token} = token_response) do
     # TODO: See what other checks are needed to verify the JWT

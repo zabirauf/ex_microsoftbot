@@ -20,6 +20,13 @@ defmodule ExMicrosoftBot.Client.Conversations do
     |> deserialize_response(&Models.ResourceResponse.parse/1)
   end
 
+
+  @doc """
+  This method allows you to send an activity to a conversation regardless of previous posts to a conversation. [API Reference](https://docs.botframework.com/en-us/restapi/connector/#!/Conversations/Conversations_SendToConversation)
+  """
+  @spec send_to_conversation(String.t, Models.Activity.t) :: :ok | Client.error_type
+  def send_to_conversation(conversation_id, %Models.Activity{serviceUrl: service_url} = activity), do: send_to_conversation(service_url, conversation_id, activity)
+
   @doc """
   This method allows you to send an activity to a conversation regardless of previous posts to a conversation. [API Reference](https://docs.botframework.com/en-us/restapi/connector/#!/Conversations/Conversations_SendToConversation)
   """
@@ -31,6 +38,13 @@ defmodule ExMicrosoftBot.Client.Conversations do
     |> deserialize_response(&(&1))
     |> change_deserialized_response_to_ok
   end
+
+
+  @doc """
+  This method allows you to reply to an activity. [API Reference](https://docs.botframework.com/en-us/restapi/connector/#!/Conversations/Conversations_ReplyToActivity)
+  """
+  @spec reply_to_activity(String.t, String.t, Models.Activity.t) :: :ok | Client.error_type
+  def reply_to_activity(conversation_id, activity_id, %Models.Activity{serviceUrl: service_url} = activity), do: reply_to_activity(service_url, conversation_id, activity_id, activity)
 
   @doc """
   This method allows you to reply to an activity. [API Reference](https://docs.botframework.com/en-us/restapi/connector/#!/Conversations/Conversations_ReplyToActivity)
@@ -74,6 +88,7 @@ defmodule ExMicrosoftBot.Client.Conversations do
   defp change_deserialized_response_to_ok(resp), do: resp
 
   defp conversations_endpoint(service_url) do
+    service_url = String.trim_trailing(service_url, "/")
     "#{service_url}/v3/conversations"
   end
 end

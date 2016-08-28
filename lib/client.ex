@@ -11,8 +11,8 @@ defmodule ExMicrosoftBot.Client do
     {:ok, deserialize_func.(body)}
   end
 
-  def deserialize_response(%HTTPotion.Response{status_code: status_code, body: body}, _deserialize_func) do
-    Logger.debug "Error response: #{status_code}: #{body}"
+  def deserialize_response(%HTTPotion.Response{status_code: status_code, body: body} = response, _deserialize_func) do
+    Logger.debug "Error response: #{status_code}: #{body} \n Raw Response: #{inspect(response)}"
     {:error, status_code, body}
   end
 

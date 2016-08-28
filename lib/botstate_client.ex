@@ -8,7 +8,6 @@ defmodule ExMicrosoftBot.Client.BotState do
   alias ExMicrosoftBot.Client
   alias ExMicrosoftBot.TokenManager
 
-
   @doc """
   Delete all data for a user in a channel. [API Reference](https://docs.botframework.com/en-us/restapi/state/#!/BotState/BotState_DeleteStateForUser)
   """

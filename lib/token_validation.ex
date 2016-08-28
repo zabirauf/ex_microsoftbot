@@ -23,7 +23,6 @@ defmodule ExMicrosoftBot.TokenValidation do
   end
 
   defp validate_bot_credentials?(headers, _) do
-    Logger.debug "ExMicrosoftBot.TokenValidation.validate_bot_credentials?: Getting the authorization header and validating"
     # Convert the list of key value tuple to a map and get the authorization header
     auth_header = Enum.reduce(headers, %{}, fn ({k, v}, acc) -> Map.put(acc, k, v) end)
     |> Map.get("authorization", nil)
@@ -88,7 +87,11 @@ defmodule ExMicrosoftBot.TokenValidation do
     contains_valid_app_id_claim?(jwt, Application.get_env(:ex_microsoftbot, :using_bot_emulator))
   end
   defp contains_valid_app_id_claim?(%JOSE.JWT{fields: %{"appid" => app_id}}, true), do: app_id == Application.get_env(:ex_microsoftbot, :app_id)
-  defp contains_valid_app_id_claim?(_, true), do: false # In case extra bot validation is required and app id isn't in claim then fail
+  defp contains_valid_app_id_claim?(token, true) do
+    # In case extra bot validation is required and app id isn't in claim then fail
+    Logger.debug "ExMicrosoftBot.TokenValidation.contains_valid_app_id_claim? Failed. Token received #{inspect(token)}"
+    false
+  end
   defp contains_valid_app_id_claim?(_, _), do: true # This will occur for prod
 
   defp token_not_expired?(%JOSE.JWT{fields: %{"exp" => expiry}}) do
