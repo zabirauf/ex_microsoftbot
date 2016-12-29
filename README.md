@@ -7,7 +7,7 @@ This library provides Elixir API wrapper for the Microsoft Bot Framework and han
 
 ## Documentation
 
-API documentation is available at [https://hexdocs.pm/ex_microsofbot](https://hexdocs.pm/ex_microsofbot)
+API documentation is available at [https://hexdocs.pm/ex_microsofbot](https://hexdocs.pm/ex_microsoftbot)
 
 ## Installation
 
