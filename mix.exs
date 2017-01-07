@@ -4,12 +4,12 @@ defmodule ExMicrosoftbot.Mixfile do
   def project do
     [app: :ex_microsoftbot,
      version: "1.0.0",
-     elixir: "~> 1.3.2",
-     description: description,
+     elixir: "~> 1.4",
+     description: description(),
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     package: package,
-     deps: deps]
+     package: package(),
+     deps: deps()]
   end
 
   def description do
@@ -52,14 +52,14 @@ defmodule ExMicrosoftbot.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:httpotion, "~> 3.0.0"},
+      {:httpotion, "~> 3.0"},
       {:poison, "~> 2.1"},
-      {:jose, "~> 1.7"},
+      {:jose, "~> 1.8"},
       {:timex, "~> 3.0"},
-      {:tzdata, "~> 0.5.8"}, 
+      {:tzdata, "~> 0.5.8"},
       {:inch_ex, ">= 0.0.0", only: :docs},
       {:dialyxir, "~> 0.3", only: [:dev]},
-      {:ex_doc, "~> 0.11.5", only: [:dev]}
+      {:ex_doc, "~> 0.14", only: [:dev]}
     ]
   end
 end
