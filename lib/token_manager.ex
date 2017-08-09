@@ -12,7 +12,7 @@ defmodule ExMicrosoftBot.TokenManager do
   ################################################
   ##### Functions to interact with GenServer #####
   ################################################
-
+  
   @doc """
   Get the token that can be used to authorize calls to Microsoft Bot Framework
   """
@@ -77,7 +77,6 @@ defmodule ExMicrosoftBot.TokenManager do
   defp contains_valid_app_id_claim?(_, %JOSE.JWT{}), do: false
 
 
-  @auth_api_endpoint "https://login.microsoftonline.com/common/oauth2/v2.0/token"
   defp refresh_token(%Models.AuthData{} = auth_data) do
     {:ok, token_response} = get_token_from_service(auth_data)
 
@@ -88,15 +87,19 @@ defmodule ExMicrosoftBot.TokenManager do
   end
 
   defp get_token_from_service(%Models.AuthData{app_id: app_id, app_password: app_password}) do
+    auth_api_endpoint = Application.get_env(:ex_microsoftbot, :auth_api_endpoint)
+    scope = Application.get_env(:ex_microsoftbot, :scope)
+    
     body = [
       dummy_param: "dummy", # In testing the first param was not detected by the API hence adding a dummy param
       grant_type: "client_credentials",
       client_id: app_id,
       client_secret: app_password,
-      scope: "https://graph.microsoft.com/.default"
+      scope: scope
     ] |> convert_to_post_params_string
 
-    HTTPotion.post(@auth_api_endpoint, [body: Poison.encode!(body)])
+    
+    HTTPotion.post(auth_api_endpoint, [body: Poison.encode!(body)])
     |> Client.deserialize_response(&(Poison.decode!(&1, as: %{})))
   end
 

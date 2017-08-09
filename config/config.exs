@@ -29,7 +29,9 @@ use Mix.Config
 #
 config :ex_microsoftbot,
   endpoint: "https://api.botframework.com",
-  openid_valid_keys_url: "https://api.aps.skype.com/v1/.well-known/openidconfiguration",
+  scope: "https://api.botframework.com/.default",
+  auth_api_endpoint: "https://login.microsoftonline.com/botframework.com/oauth2/v2.0/token",
+  openid_valid_keys_url: "https://login.botframework.com/v1/.well-known/openidconfiguration",
   issuer_claim: "https://api.botframework.com",
   audience_claim: Application.get_env(:ex_microsoftbot, :app_id),
   disable_token_validation: false

@@ -33,7 +33,7 @@ defmodule ExMicrosoftbot.Mixfile do
   def application do
     [mod: {ExMicrosoftBot, []},
      env: [endpoint: "https://api.botframework.com",
-           openid_valid_keys_url: "https://api.aps.skype.com/v1/.well-known/openidconfiguration",
+           openid_valid_keys_url: "https://login.botframework.com/v1/.well-known/openidconfiguration",
            issuer_claim: "https://api.botframework.com",
            audience_claim: Application.get_env(:ex_microsoftbot, :app_id),
            disable_token_validation: false],
