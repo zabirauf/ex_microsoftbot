@@ -86,9 +86,11 @@ defmodule ExMicrosoftBot.TokenManager do
     }
   end
 
+  @auth_api_endpoint "https://login.microsoftonline.com/botframework.com/oauth2/v2.0/token"
+  @scope "https://api.botframework.com/.default"
   defp get_token_from_service(%Models.AuthData{app_id: app_id, app_password: app_password}) do
-    auth_api_endpoint = Application.get_env(:ex_microsoftbot, :auth_api_endpoint)
-    scope = Application.get_env(:ex_microsoftbot, :scope)
+    auth_api_endpoint = Application.get_env(:ex_microsoftbot, :auth_api_endpoint) || @auth_api_endpoint
+    scope = Application.get_env(:ex_microsoftbot, :scope) || @scope
     
     body = [
       dummy_param: "dummy", # In testing the first param was not detected by the API hence adding a dummy param
