@@ -38,7 +38,7 @@ defmodule ExMicrosoftbot.Mixfile do
            audience_claim: Application.get_env(:ex_microsoftbot, :app_id),
            disable_token_validation: false],
      registered: [ExMicrosoftBot.TokenManager, ExMicrosoftBot.SigningKeysManager],
-     applications: [:logger, :httpotion, :tzdata, :timex]]
+     applications: [:logger, :jose, :httpotion, :tzdata, :timex]]
   end
 
   # Dependencies can be Hex packages:
@@ -56,7 +56,7 @@ defmodule ExMicrosoftbot.Mixfile do
       {:poison, "~> 2.1"},
       {:jose, "~> 1.7"},
       {:timex, "~> 3.0"},
-      {:tzdata, "~> 0.5.8"}, 
+      {:tzdata, "~> 0.5.8"},
       {:inch_ex, ">= 0.0.0", only: :docs},
       {:dialyxir, "~> 0.3", only: [:dev]},
       {:ex_doc, "~> 0.11.5", only: [:dev]}
