@@ -4,10 +4,11 @@ defmodule ExMicrosoftBot.Models.Entity do
   """
 
   @derive [Poison.Encoder]
-  defstruct [:type]
+  defstruct [:type, :name]
 
   @type t :: %ExMicrosoftBot.Models.Entity{
-    type: String.t
+    type: String.t,
+    name: String.t
   }
 
   @doc false
