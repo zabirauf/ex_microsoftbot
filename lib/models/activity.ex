@@ -7,7 +7,7 @@ defmodule ExMicrosoftBot.Models.Activity do
   defstruct [
     :type, :id, :timestamp, :serviceUrl, :channelId, :from, :conversation, :recipient, :textFormat,
     :attachmentLayout, :membersAdded, :membersRemoved, :topicName, :historyDisclosed, :locale,
-    :text, :summary, :attachments, :entities, :channelData, :action, :replyToId
+    :text, :speak, :summary, :attachments, :entities, :channelData, :action, :replyToId
   ]
 
   @type t :: %ExMicrosoftBot.Models.Activity{
@@ -27,6 +27,7 @@ defmodule ExMicrosoftBot.Models.Activity do
     historyDisclosed: boolean,
     locale: String.t,
     text: String.t,
+    speak: String.t,
     summary: String.t,
     attachments: [ExMicrosoftBot.Models.Attachment.t],
     entities: [ExMicrosoftBot.Models.Entity.t],
