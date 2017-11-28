@@ -4,12 +4,12 @@ defmodule ExMicrosoftbot.Mixfile do
   def project do
     [app: :ex_microsoftbot,
      version: "1.0.0",
-     elixir: "~> 1.3.2",
-     description: description,
+     elixir: "~> 1.5.0",
+     description: description(),
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     package: package,
-     deps: deps]
+     package: package(),
+     deps: deps()]
   end
 
   def description do

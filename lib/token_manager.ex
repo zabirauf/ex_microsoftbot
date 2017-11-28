@@ -12,12 +12,12 @@ defmodule ExMicrosoftBot.TokenManager do
   ################################################
   ##### Functions to interact with GenServer #####
   ################################################
-  
+
   @doc """
   Get the token that can be used to authorize calls to Microsoft Bot Framework
   """
   def get_token() do
-    %{token: token} = get_state
+    %{token: token} = get_state()
 
     token
   end
@@ -91,7 +91,7 @@ defmodule ExMicrosoftBot.TokenManager do
   defp get_token_from_service(%Models.AuthData{app_id: app_id, app_password: app_password}) do
     auth_api_endpoint = Application.get_env(:ex_microsoftbot, :auth_api_endpoint) || @auth_api_endpoint
     scope = Application.get_env(:ex_microsoftbot, :scope) || @scope
-    
+
     body = [
       dummy_param: "dummy", # In testing the first param was not detected by the API hence adding a dummy param
       grant_type: "client_credentials",
@@ -100,7 +100,7 @@ defmodule ExMicrosoftBot.TokenManager do
       scope: scope
     ] |> convert_to_post_params_string
 
-    
+
     HTTPotion.post(auth_api_endpoint, [body: Poison.encode!(body)])
     |> Client.deserialize_response(&(Poison.decode!(&1, as: %{})))
   end

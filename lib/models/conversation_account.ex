@@ -13,7 +13,7 @@ defmodule ExMicrosoftBot.Models.ConversationAccount do
   }
 
   @doc false
-  def decoding_map do
+  def decoding_map() do
     %ExMicrosoftBot.Models.ConversationAccount{}
   end
 end

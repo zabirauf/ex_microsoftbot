@@ -65,7 +65,7 @@ defmodule ExMicrosoftBot.TokenValidation do
 
   defp expected_issuer_claim, do: Application.get_env(:ex_microsoftbot, :issuer_claim)
 
-  defp contains_valid_issuer?(%JOSE.JWT{} = jwt), do: contains_valid_issuer?(expected_issuer_claim, jwt)
+  defp contains_valid_issuer?(%JOSE.JWT{} = jwt), do: contains_valid_issuer?(expected_issuer_claim(), jwt)
 
   defp contains_valid_issuer?(issuer_claim, %JOSE.JWT{fields: %{"iss" => issuer_claim}}), do: true
   defp contains_valid_issuer?(_issuer_claim, %JOSE.JWT{}) do
@@ -75,7 +75,7 @@ defmodule ExMicrosoftBot.TokenValidation do
 
   defp expected_audience_claim, do: Application.get_env(:ex_microsoftbot, :app_id)
 
-  defp contains_valid_audience?(%JOSE.JWT{} = jwt), do: contains_valid_audience?(expected_audience_claim, jwt)
+  defp contains_valid_audience?(%JOSE.JWT{} = jwt), do: contains_valid_audience?(expected_audience_claim(), jwt)
 
   defp contains_valid_audience?(audience_claim, %JOSE.JWT{fields: %{"aud" => audience_claim}}), do: true
   defp contains_valid_audience?(_audience_claim, %JOSE.JWT{}) do

@@ -14,7 +14,7 @@ defmodule ExMicrosoftBot.Models.AttachmentData do
   }
 
   @doc false
-  def decoding_map do
+  def decoding_map() do
     %ExMicrosoftBot.Models.AttachmentData {}
   end
 end
