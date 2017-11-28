@@ -17,7 +17,7 @@ defmodule ExMicrosoftBot do
     import Supervisor.Spec, warn: false
 
     children = [
-      worker(ExMicrosoftBot.TokenManager, [get_auth_data]),
+      worker(ExMicrosoftBot.TokenManager, [get_auth_data()]),
       worker(ExMicrosoftBot.SigningKeysManager, [])
     ]
 

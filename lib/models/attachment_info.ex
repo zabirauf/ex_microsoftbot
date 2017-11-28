@@ -19,7 +19,7 @@ defmodule ExMicrosoftBot.Models.AttachmentInfo do
   """
   @spec parse(map) :: {:ok, ExMicrosoftBot.Models.AttachmentInfo.t}
   def parse(param) when is_map(param) do
-    {:ok, Poison.Decode.decode(param, as: decoding_map)}
+    {:ok, Poison.Decode.decode(param, as: decoding_map())}
   end
 
   @doc """
@@ -27,7 +27,7 @@ defmodule ExMicrosoftBot.Models.AttachmentInfo do
   """
   @spec parse(String.t) :: ExMicrosoftBot.Models.AttachmentInfo.t
   def parse(param) when is_binary(param) do
-    Poison.decode!(param, as: decoding_map)
+    Poison.decode!(param, as: decoding_map())
   end
 
   @doc """
@@ -39,9 +39,9 @@ defmodule ExMicrosoftBot.Models.AttachmentInfo do
   end
 
   @doc false
-  def decoding_map do
+  def decoding_map() do
     %ExMicrosoftBot.Models.AttachmentInfo {
-      "views": [AttachmentView.decoding_map]
+      "views": [AttachmentView.decoding_map()]
     }
   end
 end

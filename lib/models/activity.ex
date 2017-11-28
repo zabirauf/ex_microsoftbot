@@ -41,7 +41,7 @@ defmodule ExMicrosoftBot.Models.Activity do
   """
   @spec parse(map) :: {:ok, ExMicrosoftBot.Models.Activity.t}
   def parse(param) when is_map(param) do
-    {:ok, Poison.Decode.decode(param, as: decoding_map)}
+    {:ok, Poison.Decode.decode(param, as: decoding_map())}
   end
 
   @doc """
@@ -49,19 +49,19 @@ defmodule ExMicrosoftBot.Models.Activity do
   """
   @spec parse(String.t) :: ExMicrosoftBot.Models.Activity.t
   def parse(param) when is_binary(param) do
-    Poison.decode!(param, as: decoding_map)
+    Poison.decode!(param, as: decoding_map())
   end
 
   @doc false
-  def decoding_map do
+  def decoding_map() do
     %ExMicrosoftBot.Models.Activity {
-      "from": ExMicrosoftBot.Models.ChannelAccount.decoding_map,
-      "conversation": ExMicrosoftBot.Models.ChannelAccount.decoding_map,
-      "recipient": ExMicrosoftBot.Models.ChannelAccount.decoding_map,
-      "membersAdded": [ExMicrosoftBot.Models.ChannelAccount.decoding_map],
-      "membersRemoved": [ExMicrosoftBot.Models.ChannelAccount.decoding_map],
-      "attachments": [ExMicrosoftBot.Models.Attachment.decoding_map],
-      "entities": [ExMicrosoftBot.Models.Entity.decoding_map],
+      "from": ExMicrosoftBot.Models.ChannelAccount.decoding_map(),
+      "conversation": ExMicrosoftBot.Models.ChannelAccount.decoding_map(),
+      "recipient": ExMicrosoftBot.Models.ChannelAccount.decoding_map(),
+      "membersAdded": [ExMicrosoftBot.Models.ChannelAccount.decoding_map()],
+      "membersRemoved": [ExMicrosoftBot.Models.ChannelAccount.decoding_map()],
+      "attachments": [ExMicrosoftBot.Models.Attachment.decoding_map()],
+      "entities": [ExMicrosoftBot.Models.Entity.decoding_map()],
       "channelData": %{}
     }
   end

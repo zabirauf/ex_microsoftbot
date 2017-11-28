@@ -12,7 +12,7 @@ defmodule ExMicrosoftBot.Models.AttachmentView do
   }
 
   @doc false
-  def decoding_map do
+  def decoding_map() do
     %ExMicrosoftBot.Models.AttachmentView {}
   end
 end

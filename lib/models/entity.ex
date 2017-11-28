@@ -12,7 +12,7 @@ defmodule ExMicrosoftBot.Models.Entity do
   }
 
   @doc false
-  def decoding_map do
+  def decoding_map() do
     %ExMicrosoftBot.Models.Entity{}
   end
 end
