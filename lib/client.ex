@@ -8,7 +8,12 @@ defmodule ExMicrosoftBot.Client do
   @type error_type :: {:error, integer, String.t}
 
   def deserialize_response(%HTTPotion.Response{status_code: 200, body: body}, deserialize_func) do
-    {:ok, deserialize_func.(body)}
+    case body do
+      "" ->
+        {:ok, ""}
+      _ ->
+        {:ok, deserialize_func.(body)}
+    end
   end
 
   def deserialize_response(%HTTPotion.Response{status_code: status_code, body: body} = response, _deserialize_func) do
