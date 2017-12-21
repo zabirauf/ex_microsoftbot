@@ -7,7 +7,8 @@ defmodule ExMicrosoftBot.Models.Activity do
   defstruct [
     :type, :id, :timestamp, :serviceUrl, :channelId, :from, :conversation, :recipient, :textFormat,
     :attachmentLayout, :membersAdded, :membersRemoved, :topicName, :historyDisclosed, :locale,
-    :text, :speak, :summary, :attachments, :entities, :channelData, :action, :replyToId, :inputHint
+    :text, :speak, :summary, :attachments, :entities, :channelData, :action, :replyToId,
+    :code, :inputHint
   ]
 
   @type t :: %ExMicrosoftBot.Models.Activity{
@@ -34,6 +35,7 @@ defmodule ExMicrosoftBot.Models.Activity do
     channelData: map,
     action: String.t,
     inputHint: String.t,
+    code: String.t,
     replyToId: String.t
   }
 
