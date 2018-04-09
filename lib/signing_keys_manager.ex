@@ -33,19 +33,18 @@ defmodule ExMicrosoftBot.SigningKeysManager do
   # Private
 
   defp get_microsoft_bot_keys() do
-    %{"jwks_uri" => uri} = get_wellknown_key_uri()
-
-    {:ok, %{"keys" => keys}} = get_json_from_uri(uri)
-
-    Enum.map(keys, &JOSE.JWK.from_map/1)
+    with {:ok, %{"jwks_uri" => uri}} <- get_json_from_wellknown_key_uri(),
+         {:ok, %{"keys" => keys}} <- get_json_from_uri(uri) do
+      {:ok, Enum.map(keys, &JOSE.JWK.from_map/1)}
+    else
+      {:error, _, _} = error -> error
+    end
   end
 
-  defp get_wellknown_key_uri() do
-    keys_url = Application.get_env(:ex_microsoftbot, :openid_valid_keys_url)
-
-    {:ok, resp} = get_json_from_uri(keys_url)
-
-    resp
+  defp get_json_from_wellknown_key_uri() do
+    :ex_microsoftbot
+    |> Application.get_env(:openid_valid_keys_url)
+    |> get_json_from_uri()
   end
 
   defp get_json_from_uri(uri) do
