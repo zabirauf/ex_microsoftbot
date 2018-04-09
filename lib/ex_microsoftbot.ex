@@ -12,10 +12,9 @@ defmodule ExMicrosoftBot do
   """
 
   use Application
+  import Supervisor.Spec, warn: false
 
   def start(_type, _args) do
-    import Supervisor.Spec, warn: false
-
     children = [
       worker(ExMicrosoftBot.TokenManager, [get_auth_data()]),
       worker(ExMicrosoftBot.SigningKeysManager, [])
@@ -24,6 +23,8 @@ defmodule ExMicrosoftBot do
     opts = [strategy: :one_for_one, name: ExMicrosoftBot.Supervisor]
     Supervisor.start_link(children, opts)
   end
+
+  # Private
 
   defp get_auth_data do
     app_id = Application.get_env(:ex_microsoftbot, :app_id)
@@ -34,6 +35,7 @@ defmodule ExMicrosoftBot do
 
   defp create_auth_data(nil, _), do: throw("No auth data defined for ex_microsoftbot.")
   defp create_auth_data(_, nil), do: throw("No auth data defined for ex_microsoftbot.")
+
   defp create_auth_data(app_id, app_password) do
     %ExMicrosoftBot.Models.AuthData{
       app_id: app_id,
