@@ -7,25 +7,23 @@ defmodule ExMicrosoftBot.Client do
 
   @type error_type :: {:error, integer, String.t()}
 
-  def deserialize_response(%HTTPotion.Response{status_code: 200, body: body}, deserialize_func) do
-    case body do
-      "" ->
-        {:ok, ""}
+  def deserialize_response(%HTTPotion.Response{status_code: 200, body: ""}, _deserialize_fn) do
+    {:ok, ""}
+  end
 
-      _ ->
-        {:ok, deserialize_func.(body)}
-    end
+  def deserialize_response(%HTTPotion.Response{status_code: 200, body: body}, deserialize_fn) do
+    {:ok, deserialize_fn.(body)}
   end
 
   def deserialize_response(
         %HTTPotion.Response{status_code: status_code, body: body} = response,
-        _deserialize_func
+        _deserialize_fn
       ) do
     Logger.error("Error response: #{status_code}: #{body} \n Raw Response: #{inspect(response)}")
     {:error, status_code, body}
   end
 
-  def deserialize_response(%HTTPotion.ErrorResponse{message: message} = resp, _deserialize_func) do
+  def deserialize_response(%HTTPotion.ErrorResponse{message: message} = resp, _deserialize_fn) do
     Logger.error("deserialize_response/2: Error response: #{message}")
     Logger.error("deserialize_response/2: Error response: #{inspect(resp)}")
     {:error, 0, message}
@@ -40,6 +38,8 @@ defmodule ExMicrosoftBot.Client do
       create_auth_headers(token, uri)
     )
   end
+
+  # Private
 
   defp create_auth_headers(token, uri) do
     uri
