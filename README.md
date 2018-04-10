@@ -13,28 +13,53 @@ API documentation is available at [https://hexdocs.pm/ex_microsofbot](https://he
 
   1. Add `ex_microsoftbot` to your list of dependencies in `mix.exs`:
 
-        def deps do
-          [{:ex_microsoftbot, "~> 1.0.0"}]
-        end
-        
+        ```elixir
+            def deps do
+              [{:ex_microsoftbot, "~> 2.0.0"}]
+            end
+        ```
+
   2. Add the registered bot app id and app password in your config:
-  
-        config :ex_microsoftbot,
-          app_id: "BOT_APP_ID",
-          app_password: "BOT_APP_PASSWORD",
-        
+
+        ```elixir
+            config :ex_microsoftbot,
+              app_id: "BOT_APP_ID",
+              app_password: "BOT_APP_PASSWORD"
+        ```
+
   3. Start the `ex_microsoftbot`:
-  
-        def application do
-          [applications: [:ex_microsoftbot]]
-        end
-        
+
+        ```elixir
+            def application do
+              [applications: [:ex_microsoftbot]]
+            end
+        ```
+
 ## Usage
 
-The modules `ExMicrosoftBot.Client.Attachments, ExMicrosoftBot.Client.Conversations, ExMicrosoftBot.Client.BotState` contains the functions to call the corresponding API of Microsoft Bot Framework. For example
+The modules `ExMicrosoftBot.Client.Attachments` and `ExMicrosoftBot.Client.Conversations` contain the functions to call the corresponding API of Microsoft Bot Framework. For example
 
-```
-bot_data = ExMicrosoftBot.Client.BotState.get_user_data(channel_id, user_id)
+```elixir
+alias ExMicrosoftBot.Client.Conversations
 
-%ExMicrosoftBot.Models.BotData{data: %{}, eTag: "string"}
+def reply(activity = %Activity{}) do
+  text = "Hello, world!"
+
+  resp_activity =
+    %Activity{
+      type: "message",
+      conversation: activity.conversation,
+      recipient: activity.from,
+      from: activity.recipient,
+      replyToId: activity.id,
+      text: text
+    }
+
+  Conversations.reply_to_activity(
+    activity.serviceUrl,
+    activity.conversation.id,
+    activity.id,
+    resp_activity
+  )
+end
 ```
