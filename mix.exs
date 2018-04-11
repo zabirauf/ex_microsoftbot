@@ -10,7 +10,11 @@ defmodule ExMicrosoftbot.Mixfile do
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       package: package(),
-      deps: deps()
+      deps: deps(),
+      docs: [
+        main: "readme",
+        extras: ["README.md", "CHANGELOG.md"]
+      ]
     ]
   end
 
@@ -54,7 +58,7 @@ defmodule ExMicrosoftbot.Mixfile do
       {:tzdata, "~> 0.5.8"},
       {:inch_ex, ">= 0.0.0", only: :docs},
       {:dialyxir, "~> 0.3", only: [:dev]},
-      {:ex_doc, "~> 0.11.5", only: [:dev]}
+      {:ex_doc, "~> 0.16", only: [:dev]}
     ]
   end
 end
