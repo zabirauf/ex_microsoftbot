@@ -1,3 +1,7 @@
+# Changelog for V2.0.1
+
+* Add `supportsDisplay` to Entity model to track if Cortana request has a screen or not.
+
 # Changelog for V2.0.0
 
 * `:jose` added to application start
