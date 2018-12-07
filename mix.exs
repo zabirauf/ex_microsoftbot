@@ -58,7 +58,7 @@ defmodule ExMicrosoftbot.Mixfile do
       {:tzdata, "~> 0.5.8"},
       {:inch_ex, ">= 0.0.0", only: :docs},
       {:dialyxir, "~> 0.3", only: [:dev]},
-      {:ex_doc, "~> 0.16", only: [:dev]}
+      {:ex_doc, "~> 0.19", only: [:dev]}
     ]
   end
 end
