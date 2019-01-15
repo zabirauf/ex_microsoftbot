@@ -41,7 +41,7 @@ defmodule ExMicrosoftBot.Models.AttachmentInfo do
   @doc false
   def decoding_map() do
     %ExMicrosoftBot.Models.AttachmentInfo {
-      "views": [AttachmentView.decoding_map()]
+      views: [AttachmentView.decoding_map()]
     }
   end
 end

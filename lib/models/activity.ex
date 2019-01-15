@@ -7,7 +7,7 @@ defmodule ExMicrosoftBot.Models.Activity do
   defstruct [
     :type, :id, :timestamp, :serviceUrl, :channelId, :from, :conversation, :recipient, :textFormat,
     :attachmentLayout, :membersAdded, :membersRemoved, :topicName, :historyDisclosed, :locale,
-    :text, :speak, :summary, :attachments, :entities, :channelData, :action, :replyToId,
+    :text, :speak, :summary, :attachments, :entities, :suggestedActions, :channelData, :action, :replyToId,
     :code, :inputHint
   ]
 
@@ -32,6 +32,7 @@ defmodule ExMicrosoftBot.Models.Activity do
     summary: String.t,
     attachments: [ExMicrosoftBot.Models.Attachment.t],
     entities: [ExMicrosoftBot.Models.Entity.t],
+    suggestedActions: [ExMicrosoftBot.Models.SuggestedAction.t],
     channelData: map,
     action: String.t,
     inputHint: String.t,
@@ -58,14 +59,15 @@ defmodule ExMicrosoftBot.Models.Activity do
   @doc false
   def decoding_map() do
     %ExMicrosoftBot.Models.Activity {
-      "from": ExMicrosoftBot.Models.ChannelAccount.decoding_map(),
-      "conversation": ExMicrosoftBot.Models.ChannelAccount.decoding_map(),
-      "recipient": ExMicrosoftBot.Models.ChannelAccount.decoding_map(),
-      "membersAdded": [ExMicrosoftBot.Models.ChannelAccount.decoding_map()],
-      "membersRemoved": [ExMicrosoftBot.Models.ChannelAccount.decoding_map()],
-      "attachments": [ExMicrosoftBot.Models.Attachment.decoding_map()],
-      "entities": [ExMicrosoftBot.Models.Entity.decoding_map()],
-      "channelData": %{}
+      from: ExMicrosoftBot.Models.ChannelAccount.decoding_map(),
+      conversation: ExMicrosoftBot.Models.ChannelAccount.decoding_map(),
+      recipient: ExMicrosoftBot.Models.ChannelAccount.decoding_map(),
+      membersAdded: [ExMicrosoftBot.Models.ChannelAccount.decoding_map()],
+      membersRemoved: [ExMicrosoftBot.Models.ChannelAccount.decoding_map()],
+      attachments: [ExMicrosoftBot.Models.Attachment.decoding_map()],
+      entities: [ExMicrosoftBot.Models.Entity.decoding_map()],
+      suggestedActions: [ExMicrosoftBot.Models.SuggestedAction.decoding_map()],
+      channelData: %{}
     }
   end
 end

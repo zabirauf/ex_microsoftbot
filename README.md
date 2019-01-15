@@ -15,7 +15,7 @@ API documentation is available at [https://hexdocs.pm/ex_microsofbot](https://he
 
         ```elixir
             def deps do
-              [{:ex_microsoftbot, "~> 2.0.1"}]
+              [{:ex_microsoftbot, "~> 2.0.2"}]
             end
         ```
 

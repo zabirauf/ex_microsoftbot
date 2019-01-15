@@ -1,3 +1,7 @@
+# Changelog for V2.0.2
+
+* Add `suggestedActions` to Activity model to support [suggestedActions](https://docs.microsoft.com/en-us/azure/bot-service/dotnet/bot-builder-dotnet-add-suggested-actions?view=azure-bot-service-3.0).
+
 # Changelog for V2.0.1
 
 * Add `supportsDisplay` to Entity model to track if Cortana request has a screen or not.

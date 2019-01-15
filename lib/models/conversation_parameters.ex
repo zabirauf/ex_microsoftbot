@@ -16,8 +16,8 @@ defmodule ExMicrosoftBot.Models.ConversationParameters do
   @doc false
   def decoding_map() do
     %ExMicrosoftBot.Models.ConversationParameters{
-      "bot": ExMicrosoftBot.Models.ChannelAccount.decoding_map(),
-      "members": [ExMicrosoftBot.Models.ChannelAccount.decoding_map()]
+      bot: ExMicrosoftBot.Models.ChannelAccount.decoding_map(),
+      members: [ExMicrosoftBot.Models.ChannelAccount.decoding_map()]
     }
   end
 end

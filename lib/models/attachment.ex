@@ -36,7 +36,7 @@ defmodule ExMicrosoftBot.Models.Attachment do
   @doc false
   def decoding_map() do
     %ExMicrosoftBot.Models.Attachment {
-      "content": %{}
+      content: %{}
     }
   end
 end
