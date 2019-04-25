@@ -60,7 +60,7 @@ defmodule ExMicrosoftBot.Models.Activity do
   def decoding_map() do
     %ExMicrosoftBot.Models.Activity {
       from: ExMicrosoftBot.Models.ChannelAccount.decoding_map(),
-      conversation: ExMicrosoftBot.Models.ChannelAccount.decoding_map(),
+      conversation: ExMicrosoftBot.Models.ConversationAccount.decoding_map(),
       recipient: ExMicrosoftBot.Models.ChannelAccount.decoding_map(),
       membersAdded: [ExMicrosoftBot.Models.ChannelAccount.decoding_map()],
       membersRemoved: [ExMicrosoftBot.Models.ChannelAccount.decoding_map()],
