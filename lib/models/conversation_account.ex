@@ -4,12 +4,13 @@ defmodule ExMicrosoftBot.Models.ConversationAccount do
   """
 
   @derive [Poison.Encoder]
-  defstruct [:isGroup, :id, :name]
+  defstruct [:isGroup, :id, :name, :conversationType]
 
   @type t :: %ExMicrosoftBot.Models.ConversationAccount{
     isGroup: boolean,
     id: String.t,
-    name: String.t
+    name: String.t,
+    conversationType: String.t
   }
 
   @doc false
