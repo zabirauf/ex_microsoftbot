@@ -32,7 +32,7 @@ defmodule ExMicrosoftBot.Models.ChannelAccount do
   """
   @spec parse(String.t) :: ExMicrosoftBot.Models.ChannelAccount.t
   def parse(param) when is_binary(param) do
-    parse Poison.decode!(param)
+    elem parse(Poison.decode!(param)), 1
   end
 
   @doc false
