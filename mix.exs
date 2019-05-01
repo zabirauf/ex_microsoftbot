@@ -45,7 +45,7 @@ defmodule ExMicrosoftbot.Mixfile do
         disable_token_validation: false
       ],
       registered: [ExMicrosoftBot.TokenManager, ExMicrosoftBot.SigningKeysManager],
-      applications: [:logger, :jose, :httpotion, :tzdata, :timex]
+      applications: [:logger, :jose, :httpotion, :poison, :tzdata, :timex]
     ]
   end
 
