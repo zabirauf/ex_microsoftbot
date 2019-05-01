@@ -4,13 +4,14 @@ defmodule ExMicrosoftBot.Models.ConversationParameters do
   """
 
   @derive [Poison.Encoder]
-  defstruct [:isGroup, :bot, :members, :topicName]
+  defstruct [:isGroup, :bot, :members, :topicName, :activity]
 
   @type t :: %ExMicrosoftBot.Models.ConversationParameters{
     isGroup: boolean,
     bot: ExMicrosoftBot.Models.ChannelAccount.t,
     members: [ExMicrosoftBot.Models.ChannelAccount.t],
-    topicName: String.t
+    topicName: String.t,
+    activity: ExMicrosoftBot.Models.Activity.t
   }
 
   @doc false
