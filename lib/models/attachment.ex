@@ -12,7 +12,7 @@ defmodule ExMicrosoftBot.Models.Attachment do
   @type t :: %ExMicrosoftBot.Models.Attachment{
     contentType: String.t,
     contentUrl: String.t,
-    content: map,
+    content: String.t | map,
     name: String.t,
     thumbnailUrl: String.t
   }
@@ -35,8 +35,6 @@ defmodule ExMicrosoftBot.Models.Attachment do
 
   @doc false
   def decoding_map() do
-    %ExMicrosoftBot.Models.Attachment {
-      content: %{}
-    }
+    %ExMicrosoftBot.Models.Attachment{}
   end
 end
