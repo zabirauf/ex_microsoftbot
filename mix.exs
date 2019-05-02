@@ -52,11 +52,11 @@ defmodule ExMicrosoftbot.Mixfile do
   defp deps do
     [
       {:httpotion, "~> 3.0.0"},
-      {:poison, "~> 2.1"},
+      {:poison, "~> 3.0"},
       {:jose, "~> 1.7"},
       {:timex, "~> 3.0"},
       {:tzdata, "~> 0.5.8"},
-      {:inch_ex, ">= 0.0.0", only: :docs},
+      {:inch_ex, "~> 1.0.0", only: :docs},
       {:dialyxir, "~> 0.3", only: [:dev]},
       {:ex_doc, "~> 0.19", only: [:dev]}
     ]
