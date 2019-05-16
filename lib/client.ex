@@ -7,11 +7,11 @@ defmodule ExMicrosoftBot.Client do
 
   @type error_type :: {:error, integer, String.t()}
 
-  def deserialize_response(%HTTPotion.Response{status_code: 200, body: ""}, _deserialize_fn) do
+  def deserialize_response(%HTTPotion.Response{status_code: sc, body: ""}, _deserialize_fn) when sc >= 200 and sc < 300 do
     {:ok, ""}
   end
 
-  def deserialize_response(%HTTPotion.Response{status_code: 200, body: body}, deserialize_fn) do
+  def deserialize_response(%HTTPotion.Response{status_code: sc, body: body}, deserialize_fn) when sc >= 200 and sc < 300 do
     {:ok, deserialize_fn.(body)}
   end
 
