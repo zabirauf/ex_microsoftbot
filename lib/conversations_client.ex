@@ -9,7 +9,7 @@ defmodule ExMicrosoftBot.Client.Conversations do
   alias ExMicrosoftBot.TokenManager
 
   @doc """
-  Create a new Conversation. [API Reference](https://docs.botframework.com/en-us/restapi/connector/#!/Conversations/Conversations_CreateConversation)
+  Create a new Conversation. [API Reference](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-connector-api-reference?view=azure-bot-service-4.0#conversation-object)
   """
   @spec create_conversation(String.t, Models.ConversationParameters.t) :: {:ok, Models.ResourceResponse.t} | Client.error_type
   def create_conversation(service_url, %Models.ConversationParameters{} = params) do
