@@ -28,13 +28,19 @@ defmodule ExMicrosoftBot.Models.AttachmentTest do
       }} = Attachment.parse(%{
         "contentType" => "application/vnd.microsoft.card.hero",
         "content" => %{
-          "subtitle" => "what a hero!"
+          "subtitle" => "what a hero!",
+          "how_much" => 42,
+          "really" => false
         },
         "name" => "something else"
       })
 
       assert contentType == "application/vnd.microsoft.card.hero"
-      assert content == %{"subtitle" => "what a hero!"}
+      assert content == %{
+        "subtitle" => "what a hero!",
+        "how_much" => 42,
+        "really" => false
+      }
       assert name == "something else"
     end
   end
