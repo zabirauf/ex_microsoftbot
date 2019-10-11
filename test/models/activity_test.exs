@@ -30,7 +30,8 @@ defmodule ExMicrosoftBot.Models.ActivityTest do
         action: action,
         inputHint: inputHint,
         code: code,
-        replyToId: replyToId
+        replyToId: replyToId,
+        value: value
       }} = Activity.parse(%{
         "type" => "message",
         "id" => "1556500798576",
@@ -75,6 +76,10 @@ defmodule ExMicrosoftBot.Models.ActivityTest do
         "inputHint" => "hint hint",
         "code" => "42",
         "replyToId" => "123234345",
+        "value" => %{
+          "some_text" => "halp",
+          "some_number" => 42
+        }
       })
 
       assert type == "message"
@@ -129,6 +134,10 @@ defmodule ExMicrosoftBot.Models.ActivityTest do
       assert inputHint == "hint hint"
       assert code == "42"
       assert replyToId == "123234345"
+      assert value == %{
+        "some_text" => "halp",
+        "some_number" => 42
+      }
     end
 
     test "leaves out empty lists" do
