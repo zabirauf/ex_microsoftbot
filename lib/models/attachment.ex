@@ -9,10 +9,13 @@ defmodule ExMicrosoftBot.Models.Attachment do
     :name, :thumbnailUrl
   ]
 
+  @type json_base_value :: String.t | number | boolean
+  @type json_object :: json_base_value  | [json_base_value] | %{optional(String.t) => json_object}
+
   @type t :: %ExMicrosoftBot.Models.Attachment{
     contentType: String.t,
     contentUrl: String.t,
-    content: map,
+    content: json_object,
     name: String.t,
     thumbnailUrl: String.t
   }
@@ -35,8 +38,6 @@ defmodule ExMicrosoftBot.Models.Attachment do
 
   @doc false
   def decoding_map() do
-    %ExMicrosoftBot.Models.Attachment {
-      content: %{}
-    }
+    %ExMicrosoftBot.Models.Attachment{}
   end
 end
