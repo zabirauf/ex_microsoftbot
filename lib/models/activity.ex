@@ -8,9 +8,11 @@ defmodule ExMicrosoftBot.Models.Activity do
     :type, :id, :timestamp, :serviceUrl, :channelId, :from, :conversation, :recipient, :textFormat,
     :attachmentLayout, :membersAdded, :membersRemoved, :topicName, :historyDisclosed, :locale,
     :text, :speak, :summary, :attachments, :entities, :suggestedActions, :channelData, :action, :replyToId,
-    :code, :inputHint
+    :code, :inputHint, :value
   ]
 
+  @type json_base_value :: String.t | number | boolean
+  @type json_object :: json_base_value  | [json_base_value] | %{optional(String.t) => json_object}
   @type t :: %ExMicrosoftBot.Models.Activity{
     type: String.t,
     id: String.t,
@@ -37,7 +39,8 @@ defmodule ExMicrosoftBot.Models.Activity do
     action: String.t,
     inputHint: String.t,
     code: String.t,
-    replyToId: String.t
+    replyToId: String.t,
+    value: json_object
   }
 
   @doc """
