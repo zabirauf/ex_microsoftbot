@@ -121,7 +121,7 @@ defmodule ExMicrosoftBot.TokenManager do
       )
 
     auth_api_endpoint
-    |> HTTPotion.post(body: Poison.encode!(body))
+    |> HTTPotion.post(body: body)
     |> Client.deserialize_response(&Poison.decode!(&1, as: %{}))
   end
 
