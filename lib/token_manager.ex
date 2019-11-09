@@ -110,25 +110,15 @@ defmodule ExMicrosoftBot.TokenManager do
 
     scope = Application.get_env(:ex_microsoftbot, :scope) || @scope
 
-    body =
-      convert_to_post_params_string(
-        # In testing the first param was not detected by the API hence adding a dummy param
-        dummy_param: "dummy",
-        grant_type: "client_credentials",
-        client_id: app_id,
-        client_secret: app_password,
-        scope: scope
-      )
+    body = URI.encode_query(%{
+      grant_type: "client_credentials",
+      client_id: app_id,
+      client_secret: app_password,
+      scope: scope
+    })
 
     auth_api_endpoint
-    |> HTTPotion.post(body: Poison.encode!(body))
+    |> HTTPotion.post(body: body, headers: ["Content-Type": "application/x-www-form-urlencoded"])
     |> Client.deserialize_response(&Poison.decode!(&1, as: %{}))
-  end
-
-  defp convert_to_post_params_string(params) do
-    params
-    |> Enum.reduce([], fn {k, v}, acc -> ["#{k}=#{URI.encode_www_form(v)}" | acc] end)
-    |> Enum.reverse()
-    |> Enum.join("&")
   end
 end
