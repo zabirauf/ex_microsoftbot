@@ -11,33 +11,33 @@ API documentation is available at [https://hexdocs.pm/ex_microsofbot](https://he
 
 ## Installation
 
-  1. Add `ex_microsoftbot` to your list of dependencies in `mix.exs`:
+1. Add `ex_microsoftbot` to your list of dependencies in `mix.exs`:
 
-        ```elixir
-            def deps do
-              [{:ex_microsoftbot, "~> 2.0.2"}]
-            end
-        ```
+```elixir
+def deps do
+  [{:ex_microsoftbot, "~> 2.0.2"}]
+end
+```
 
-  2. Add the registered bot app id and app password in your config:
+2. Add the registered bot app id and app password in your config:
 
-        ```elixir
-            config :ex_microsoftbot,
-              app_id: "BOT_APP_ID",
-              app_password: "BOT_APP_PASSWORD"
-        ```
+```elixir
+config :ex_microsoftbot,
+  app_id: "BOT_APP_ID",
+  app_password: "BOT_APP_PASSWORD"
+```
 
-  3. Start the `ex_microsoftbot`:
+3. Start the `ex_microsoftbot`:
 
-        ```elixir
-            def application do
-              [applications: [:ex_microsoftbot]]
-            end
-        ```
+```elixir
+def application do
+  [applications: [:ex_microsoftbot]]
+end
+```
 
 ## Usage
 
-The modules `ExMicrosoftBot.Client.Attachments` and `ExMicrosoftBot.Client.Conversations` contain the functions to call the corresponding API of Microsoft Bot Framework. For example
+The modules `ExMicrosoftBot.Client.Attachments` and `ExMicrosoftBot.Client.Conversations` contain the functions to call the corresponding API of Microsoft Bot Framework. For example:
 
 ```elixir
 alias ExMicrosoftBot.Client.Conversations
@@ -63,3 +63,26 @@ def reply(activity = %Activity{}) do
   )
 end
 ```
+
+## Config
+
+In addition to the required auth configs mentioned in [Installation](#installation), there are a few more options available to customize this lib:
+
+```elixir
+config :ex_microsoftbot
+  using_bot_emulator: false,
+  scope: "https://api.botframework.com/.default",
+  http_timeout: nil
+```
+
+#### `using_bot_emulator`
+
+Default `false`. Set this to `true` to disable the auth token manager, and instead use a fake auth token in all requests.
+
+#### `scope`
+
+Default `"https://api.botframework.com/.default"`. This sets the scope used when authorizing with the BotFramework.
+
+#### `http_timeout`
+
+In milliseconds, defaults to the underlying lib (currently HTTPotion)'s default. Change this to set the timeout for each request to the Bot Framework.

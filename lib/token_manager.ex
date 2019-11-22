@@ -6,10 +6,11 @@ defmodule ExMicrosoftBot.TokenManager do
   """
 
   use ExMicrosoftBot.RefreshableAgent
+  import ExMicrosoftBot.Client, only: [req_options: 1]
   alias ExMicrosoftBot.{Client, Models}
 
   @auth_api_endpoint "https://login.microsoftonline.com/botframework.com/oauth2/v2.0/token"
-  @scope "https://api.botframework.com/.default"
+  @scope Application.get_env(:ex_microsoftbot, :scope, "https://api.botframework.com/.default")
 
   # Public API
 
@@ -108,17 +109,17 @@ defmodule ExMicrosoftBot.TokenManager do
     auth_api_endpoint =
       Application.get_env(:ex_microsoftbot, :auth_api_endpoint) || @auth_api_endpoint
 
-    scope = Application.get_env(:ex_microsoftbot, :scope) || @scope
-
     body = URI.encode_query(%{
       grant_type: "client_credentials",
       client_id: app_id,
       client_secret: app_password,
-      scope: scope
+      scope: @scope
     })
 
+    headers = ["Content-Type": "application/x-www-form-urlencoded"]
+
     auth_api_endpoint
-    |> HTTPotion.post(body: body, headers: ["Content-Type": "application/x-www-form-urlencoded"])
+    |> HTTPotion.post(req_options(body: body, headers: headers))
     |> Client.deserialize_response(&Poison.decode!(&1, as: %{}))
   end
 end

@@ -5,7 +5,10 @@ defmodule ExMicrosoftBot.Client do
 
   require Logger
 
+  alias ExMicrosoftBot.TokenManager
+
   @type error_type :: {:error, integer, String.t()}
+  @http_timeout Application.get_env(:ex_microsoftbot, :http_timeout)
 
   def deserialize_response(%HTTPotion.Response{status_code: sc, body: ""}, _deserialize_fn) when sc >= 200 and sc < 300 do
     {:ok, ""}
@@ -39,6 +42,27 @@ defmodule ExMicrosoftBot.Client do
     )
   end
 
+  @doc """
+  Returns an options Keyword with authorization headers set for making requests
+  with HTTPotion.
+  """
+  @spec authed_req_options(String.t, keyword) :: keyword
+  def authed_req_options(endpoint, extra \\ []) do
+    [headers: headers(TokenManager.get_token(), endpoint)]
+    |> Keyword.merge(extra)
+    |> req_options()
+  end
+
+  @doc """
+  Returns an options keyword with default config settings for HTTPotion merged
+  with the given options.
+  """
+  @spec req_options(keyword) :: keyword
+  def req_options(extra \\ []) do
+    base_req_options()
+    |> Keyword.merge(extra)
+  end
+
   # Private
 
   defp create_auth_headers(token, uri) do
@@ -66,5 +90,12 @@ defmodule ExMicrosoftBot.Client do
     [
       Authorization: "Bearer #{token}"
     ]
+  end
+
+  defp base_req_options do
+    case @http_timeout do
+      nil -> []
+      timeout -> [timeout: timeout]
+    end
   end
 end
