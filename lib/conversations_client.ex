@@ -3,10 +3,10 @@ defmodule ExMicrosoftBot.Client.Conversations do
   This module provides the functions for conversations
   """
 
-  import ExMicrosoftBot.Client, only: [headers: 2, deserialize_response: 2]
+  import ExMicrosoftBot.Client, only: [authed_req_options: 1, authed_req_options: 2, deserialize_response: 2]
+
   alias ExMicrosoftBot.Models, as: Models
   alias ExMicrosoftBot.Client
-  alias ExMicrosoftBot.TokenManager
 
   @doc """
   Create a new Conversation. [API Reference](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-connector-api-reference?view=azure-bot-service-4.0#conversation-object)
@@ -16,7 +16,7 @@ defmodule ExMicrosoftBot.Client.Conversations do
 
     endpoint = conversations_endpoint(service_url)
 
-    HTTPotion.post(endpoint, [body: Poison.encode!(params), headers: headers(TokenManager.get_token, endpoint)])
+    HTTPotion.post(endpoint, authed_req_options(endpoint, body: Poison.encode!(params)))
     |> deserialize_response(&Models.ResourceResponse.parse/1)
   end
 
@@ -34,7 +34,7 @@ defmodule ExMicrosoftBot.Client.Conversations do
   def send_to_conversation(service_url, conversation_id, %Models.Activity{} = activity) do
     api_endpoint = "#{conversations_endpoint(service_url)}/#{conversation_id}/activities"
 
-    HTTPotion.post(api_endpoint, [body: Poison.encode!(activity), headers: headers(TokenManager.get_token, api_endpoint)])
+    HTTPotion.post(api_endpoint, authed_req_options(api_endpoint, body: Poison.encode!(activity)))
     |> deserialize_response(&(&1))
     |> change_deserialized_response_to_ok
   end
@@ -53,7 +53,7 @@ defmodule ExMicrosoftBot.Client.Conversations do
   def reply_to_activity(service_url, conversation_id, activity_id, %Models.Activity{} = activity) do
     api_endpoint = "#{conversations_endpoint(service_url)}/#{conversation_id}/activities/#{activity_id}"
 
-    HTTPotion.post(api_endpoint, [body: Poison.encode!(activity), headers: headers(TokenManager.get_token, api_endpoint)])
+    HTTPotion.post(api_endpoint, authed_req_options(api_endpoint, body: Poison.encode!(activity)))
     |> deserialize_response(&(&1))
     |> change_deserialized_response_to_ok
   end
@@ -69,7 +69,7 @@ defmodule ExMicrosoftBot.Client.Conversations do
       aid -> "#{conversations_endpoint(service_url)}/#{conversation_id}/activities/#{aid}/members"
     end
 
-    HTTPotion.get(api_endpoint, [headers: headers(TokenManager.get_token, api_endpoint)])
+    HTTPotion.get(api_endpoint, authed_req_options(api_endpoint))
     |> deserialize_response(&Models.ChannelAccount.parse/1)
   end
 
@@ -80,7 +80,7 @@ defmodule ExMicrosoftBot.Client.Conversations do
   def upload_attachment(service_url, conversation_id, %Models.AttachmentData{} = attachment) do
     api_endpoint = "#{conversations_endpoint(service_url)}/#{conversation_id}/attachments"
 
-    HTTPotion.post(api_endpoint, [body: Poison.encode!(attachment), headers: headers(TokenManager.get_token, api_endpoint)])
+    HTTPotion.post(api_endpoint, authed_req_options(api_endpoint, body: Poison.encode!(attachment)))
     |> deserialize_response(&Models.ResourceResponse.parse/1)
   end
 

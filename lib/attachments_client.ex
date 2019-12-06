@@ -3,10 +3,9 @@ defmodule ExMicrosoftBot.Client.Attachments do
   This module provides the functions to get information related to attachments.
   """
 
-  import ExMicrosoftBot.Client, only: [headers: 2, deserialize_response: 2]
+  import ExMicrosoftBot.Client, only: [authed_req_options: 1, deserialize_response: 2]
   alias ExMicrosoftBot.Models, as: Models
   alias ExMicrosoftBot.Client
-  alias ExMicrosoftBot.TokenManager
 
   @doc """
   Get AttachmentInfo structure describing the attachment views. [API Reference](https://docs.botframework.com/en-us/restapi/connector/#!/Attachments/Attachments_GetAttachmentInfo)
@@ -15,7 +14,7 @@ defmodule ExMicrosoftBot.Client.Attachments do
   def get_attachment(service_url, attachment_id) do
     api_endpoint = "#{attachments_endpoint(service_url)}/#{attachment_id}"
 
-    HTTPotion.get(api_endpoint, [headers: headers(TokenManager.get_token, api_endpoint)])
+    HTTPotion.get(api_endpoint, authed_req_options(api_endpoint))
     |> deserialize_response(&Models.AttachmentInfo.parse/1)
   end
 
@@ -26,7 +25,7 @@ defmodule ExMicrosoftBot.Client.Attachments do
   def get_attachment_view(service_url, attachment_id, view_id) do
     api_endpoint = "#{attachments_endpoint(service_url)}/#{attachment_id}/views/#{view_id}"
 
-    HTTPotion.get(api_endpoint, [headers: headers(TokenManager.get_token, api_endpoint)])
+    HTTPotion.get(api_endpoint, authed_req_options(api_endpoint))
     |> deserialize_response(&(&1)) # Return the body as is because it is binary
   end
 
