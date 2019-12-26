@@ -1,4 +1,4 @@
-defmodule ExMicrosoftbot.Mixfile do
+defmodule ExMicrosoftBot.Mixfile do
   use Mix.Project
 
   def project do
