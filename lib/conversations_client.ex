@@ -67,6 +67,18 @@ defmodule ExMicrosoftBot.Client.Conversations do
   end
 
   @doc """
+  This method allows you to update an activity. [API Reference](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-connector-api-reference?view=azure-bot-service-4.0#update-activity)
+  """
+  @spec update_activity(String.t, String.t, String.t, Models.Activity.t) :: :ok | Client.error_type
+  def update_activity(service_url, conversation_id, activity_id, %Models.Activity{} = activity) do
+    api_endpoint = "#{conversations_endpoint(service_url)}/#{conversation_id}/activities/#{activity_id}"
+
+    HTTPotion.put(api_endpoint, [body: Poison.encode!(activity), headers: headers(TokenManager.get_token, api_endpoint)])
+    |> deserialize_response(&(&1))
+    |> change_deserialized_response_to_ok
+  end
+
+  @doc """
   This function takes a ConversationId and returns an array of ChannelAccount[] objects which are the members of the conversation. [API Reference](https://docs.botframework.com/en-us/restapi/connector/#!/Conversations/Conversations_GetConversationMembers).
   When ActivityId is passed in then it returns the members of the particular activity in the conversation. [API Reference](https://docs.botframework.com/en-us/restapi/connector/#!/Conversations/Conversations_GetActivityMembers)
   """
