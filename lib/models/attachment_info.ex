@@ -19,7 +19,7 @@ defmodule ExMicrosoftBot.Models.AttachmentInfo do
   """
   @spec parse(map) :: {:ok, ExMicrosoftBot.Models.AttachmentInfo.t}
   def parse(param) when is_map(param) do
-    {:ok, Poison.Decode.decode(param, as: decoding_map())}
+    {:ok, Poison.Decode.transform(param, %{as: decoding_map()})}
   end
 
   @doc """
