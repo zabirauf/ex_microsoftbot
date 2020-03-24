@@ -10,11 +10,13 @@ defmodule ExMicrosoftBot.Client do
   @type error_type :: {:error, integer, String.t()}
   @http_timeout Application.get_env(:ex_microsoftbot, :http_timeout)
 
-  def deserialize_response(%HTTPotion.Response{status_code: sc, body: ""}, _deserialize_fn) when sc >= 200 and sc < 300 do
+  def deserialize_response(%HTTPotion.Response{status_code: sc, body: ""}, _deserialize_fn)
+      when sc >= 200 and sc < 300 do
     {:ok, ""}
   end
 
-  def deserialize_response(%HTTPotion.Response{status_code: sc, body: body}, deserialize_fn) when sc >= 200 and sc < 300 do
+  def deserialize_response(%HTTPotion.Response{status_code: sc, body: body}, deserialize_fn)
+      when sc >= 200 and sc < 300 do
     {:ok, deserialize_fn.(body)}
   end
 
@@ -46,7 +48,7 @@ defmodule ExMicrosoftBot.Client do
   Returns an options Keyword with authorization headers set for making requests
   with HTTPotion.
   """
-  @spec authed_req_options(String.t, keyword) :: keyword
+  @spec authed_req_options(String.t(), keyword) :: keyword
   def authed_req_options(endpoint, extra \\ []) do
     [headers: headers(TokenManager.get_token(), endpoint)]
     |> Keyword.merge(extra)
@@ -61,6 +63,16 @@ defmodule ExMicrosoftBot.Client do
   def req_options(extra \\ []) do
     base_req_options()
     |> Keyword.merge(extra)
+  end
+
+  @doc "GETs an endpoint with the given request options, logging the result."
+  @spec get(String.t(), keyword()) :: HTTPotion.Response.t()
+  def get(url, req_options) do
+    response = HTTPotion.get(url, req_options)
+
+    Logger.debug("GET #{inspect(url)}: #{inspect(response)}")
+
+    response
   end
 
   # Private
