@@ -64,10 +64,30 @@ defmodule ExMicrosoftBot.Client.Conversations do
   """
   @spec get_members(String.t, String.t, String.t) :: {:ok, [Models.ChannelAccount.t]} | Client.error_type
   def get_members(service_url, conversation_id, activity_id \\ nil) do
-    api_endpoint = case activity_id do
-      nil -> "#{conversations_endpoint(service_url)}/#{conversation_id}/members"
-      aid -> "#{conversations_endpoint(service_url)}/#{conversation_id}/activities/#{aid}/members"
-    end
+    api_endpoint =
+      case activity_id do
+        nil ->
+          "#{conversations_endpoint(service_url)}/#{conversation_id}/members"
+
+        aid ->
+          "#{conversations_endpoint(service_url)}/#{conversation_id}/activities/#{aid}/members"
+      end
+
+    HTTPotion.get(api_endpoint, authed_req_options(api_endpoint))
+    |> deserialize_response(&Models.ChannelAccount.parse/1)
+  end
+
+  @doc """
+  This function takes a conversation ID and a member ID and returns a
+  ChannelAccount struct for that member of the conversation.
+
+  [Reference](https://github.com/microsoft/botbuilder-js/blob/5b164105a2f289baaa7b89829e09ddbeda88bfc5/libraries/botframework-connector/src/connectorApi/operations/conversations.ts#L733-L749).
+  """
+  @spec get_member(String.t(), String.t(), String.t()) ::
+          {:ok, Models.ChannelAccount.t()} | Client.error_type()
+  def get_member(service_url, conversation_id, member_id) do
+    api_endpoint =
+      "#{conversations_endpoint(service_url)}/#{conversation_id}/members/#{member_id}"
 
     HTTPotion.get(api_endpoint, authed_req_options(api_endpoint))
     |> deserialize_response(&Models.ChannelAccount.parse/1)
