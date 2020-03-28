@@ -5,7 +5,7 @@ defmodule ExMicrosoftbot.Mixfile do
     [
       app: :ex_microsoftbot,
       version: "2.0.2",
-      elixir: "~> 1.5 or ~> 1.6",
+      elixir: "~> 1.8",
       description: description(),
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
@@ -55,7 +55,7 @@ defmodule ExMicrosoftbot.Mixfile do
       {:poison, "~> 4.0"},
       {:jose, "~> 1.7"},
       {:timex, "~> 3.0"},
-      {:tzdata, "~> 0.5.8"},
+      {:tzdata, "~> 1.0"},
       {:inch_ex, "~> 2.0.0", only: :docs},
       {:dialyxir, "~> 0.3", only: [:dev]},
       {:ex_doc, "~> 0.19", only: [:dev]}
