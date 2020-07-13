@@ -7,21 +7,21 @@ defmodule ExMicrosoftBot.Models.ResourceResponse do
   defstruct [:id]
 
   @type t :: %ExMicrosoftBot.Models.ResourceResponse{
-    id: String.t
-  }
+          id: String.t()
+        }
 
   @doc """
   Decode a map into `ExMicrosoftBot.Models.ResourceResponse`
   """
-  @spec parse(map) :: {:ok, ExMicrosoftBot.Models.ResourceResponse.t}
+  @spec parse(map) :: {:ok, ExMicrosoftBot.Models.ResourceResponse.t()}
   def parse(param) when is_map(param) do
-    {:ok, Poison.Decode.transform(param, as: decoding_map())}
+    {:ok, Poison.Decode.transform(param, %{as: decoding_map()})}
   end
 
   @doc """
   Decode a string into `ExMicrosoftBot.Models.ResourceResponse`
   """
-  @spec parse(String.t) :: ExMicrosoftBot.Models.ResourceResponse.t
+  @spec parse(String.t()) :: ExMicrosoftBot.Models.ResourceResponse.t()
   def parse(param) when is_binary(param) do
     Poison.decode!(param, as: decoding_map())
   end
