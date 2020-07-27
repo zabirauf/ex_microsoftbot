@@ -90,7 +90,7 @@ defmodule ExMicrosoftBot.Client.Conversations do
   This function takes a conversation ID and a member ID and returns a
   ChannelAccount struct for that member of the conversation.
 
-  [Reference](https://github.com/microsoft/botbuilder-js/blob/5b164105a2f289baaa7b89829e09ddbeda88bfc5/libraries/botframework-connector/src/connectorApi/operations/conversations.ts#L733-L749).
+  [API Reference](https://github.com/microsoft/botbuilder-js/blob/5b164105a2f289baaa7b89829e09ddbeda88bfc5/libraries/botframework-connector/src/connectorApi/operations/conversations.ts#L733-L749).
   """
   @spec get_member(String.t(), String.t(), String.t()) ::
           {:ok, Models.ChannelAccount.t()} | Client.error_type()
@@ -118,7 +118,7 @@ defmodule ExMicrosoftBot.Client.Conversations do
   end
 
   @doc """
-  Updates an existing activity. The activity struct is expected to have an ID.
+  Updates an existing activity. The activity struct is expected to have an ID. [API Reference](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-connector-api-reference?view=azure-bot-service-4.0#update-activity)
   """
   @spec update_activity(String.t(), String.t(), Models.Activity.t()) ::
           {:ok, Models.ResourceResponse.t()} | Client.error_type()

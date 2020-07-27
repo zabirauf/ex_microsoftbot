@@ -4,7 +4,7 @@ defmodule ExMicrosoftbot.Mixfile do
   def project do
     [
       app: :ex_microsoftbot,
-      version: "2.0.2",
+      version: "3.0.0",
       elixir: "~> 1.8",
       description: description(),
       build_embedded: Mix.env() == :prod,
