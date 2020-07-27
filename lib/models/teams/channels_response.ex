@@ -1,4 +1,4 @@
-defmodule ExMicrosoftBot.Models.ChannelsResponse do
+defmodule ExMicrosoftBot.Models.Teams.ChannelsResponse do
   @moduledoc """
   Schema representing the return of the Channels list for a team.
   """
