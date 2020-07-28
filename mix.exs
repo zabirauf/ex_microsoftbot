@@ -4,7 +4,7 @@ defmodule ExMicrosoftbot.Mixfile do
   def project do
     [
       app: :ex_microsoftbot,
-      version: "2.0.2",
+      version: "3.0.0",
       elixir: "~> 1.8",
       description: description(),
       build_embedded: Mix.env() == :prod,
@@ -45,8 +45,16 @@ defmodule ExMicrosoftbot.Mixfile do
         disable_token_validation: false
       ],
       registered: [ExMicrosoftBot.TokenManager, ExMicrosoftBot.SigningKeysManager],
-      applications: [:logger, :jose, :httpotion, :tzdata, :timex]
+      applications: applications(Mix.env())
     ]
+  end
+
+  defp applications(env) when env in [:dev, :prod] do
+    [:logger, :jose, :httpotion, :tzdata, :timex]
+  end
+
+  defp applications(:test) do
+    [:bypass | applications(:dev)]
   end
 
   defp deps do
@@ -58,7 +66,8 @@ defmodule ExMicrosoftbot.Mixfile do
       {:tzdata, "~> 1.0"},
       {:inch_ex, "~> 2.0.0", only: :docs},
       {:dialyxir, "~> 0.3", only: [:dev]},
-      {:ex_doc, "~> 0.19", only: [:dev]}
+      {:ex_doc, "~> 0.19", only: [:dev]},
+      {:bypass, "~> 1.0", only: :test}
     ]
   end
 end
