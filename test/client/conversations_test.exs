@@ -28,7 +28,8 @@ defmodule ExMicrosoftBot.Client.ConversationsTest do
                    "\"summary\":null,\"suggestedActions\":null,\"speak\":null," <>
                    "\"serviceUrl\":null,\"replyToId\":null," <>
                    "\"recipient\":{" <>
-                   "\"name\":\"Jonas\",\"id\":55" <>
+                   "\"userPrincipalName\":null,\"tenantId\":null,\"surname\":null,\"objectId\":null," <>
+                   "\"name\":\"Jonas\",\"id\":55,\"givenName\":null,\"email\":null" <>
                    "},\"membersRemoved\":null,\"membersAdded\":null,\"locale\":null," <>
                    "\"inputHint\":null,\"id\":null,\"historyDisclosed\":null,\"from\":null," <>
                    "\"entities\":null,\"conversation\":null,\"code\":null,\"channelId\":null," <>
@@ -73,7 +74,8 @@ defmodule ExMicrosoftBot.Client.ConversationsTest do
                    "\"summary\":null,\"suggestedActions\":null,\"speak\":null," <>
                    "\"serviceUrl\":null,\"replyToId\":null," <>
                    "\"recipient\":{" <>
-                   "\"name\":\"Jonas\",\"id\":55" <>
+                   "\"userPrincipalName\":null,\"tenantId\":null,\"surname\":null,\"objectId\":null," <>
+                   "\"name\":\"Jonas\",\"id\":55,\"givenName\":null,\"email\":null" <>
                    "},\"membersRemoved\":null,\"membersAdded\":null,\"locale\":null," <>
                    "\"inputHint\":null,\"id\":\"12345\",\"historyDisclosed\":null," <>
                    "\"from\":null,\"entities\":null,\"conversation\":null," <>
@@ -96,6 +98,39 @@ defmodule ExMicrosoftBot.Client.ConversationsTest do
                  text: "ohai"
                }
              ) == {:ok, %ResourceResponse{id: "12345"}}
+    end
+  end
+
+  describe "delete_activity/3" do
+    setup do
+      bypass = Bypass.open(port: @bypass_port)
+      {:ok, bypass: bypass}
+    end
+
+    test "DELETEs the activity given serviceUrl", %{bypass: bypass} do
+      Bypass.expect_once(bypass, "DELETE", "/v3/conversations/42/activities/12345", fn conn ->
+        assert conn |> get_req_header("content-type") |> List.first() == "application/json"
+        assert conn |> get_req_header("accept") |> List.first() == "application/json"
+        assert conn |> get_req_header("authorization") |> List.first() == "Bearer"
+
+        assert {:ok, "", conn} = read_body(conn)
+
+        resp(conn, 200, "")
+      end)
+
+      assert Conversations.delete_activity(
+               "http://localhost:#{@bypass_port}",
+               42,
+               %Activity{
+                 id: "12345",
+                 type: "text",
+                 recipient: %ChannelAccount{
+                   id: 55,
+                   name: "Jonas"
+                 },
+                 text: "ohai"
+               }
+             ) == {:ok, ""}
     end
   end
 end

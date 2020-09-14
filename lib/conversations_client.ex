@@ -131,6 +131,24 @@ defmodule ExMicrosoftBot.Client.Conversations do
     |> deserialize_response(&Models.ResourceResponse.parse/1)
   end
 
+  @doc """
+  Deletes an existing activity. The returned content will always be empty.
+  [API Reference](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/update-and-delete-bot-messages?tabs=rest#deleting-messages)
+  """
+  @spec delete_activity(String.t(), String.t(), Models.Activity.t() | String.t()) ::
+          {:ok, binary()} | Client.error_type()
+  def delete_activity(service_url, conversation_id, %Models.Activity{id: activity_id}),
+    do: delete_activity(service_url, conversation_id, activity_id)
+
+  def delete_activity(service_url, conversation_id, activity_id) do
+    api_endpoint =
+      "#{conversations_endpoint(service_url)}/#{conversation_id}/activities/#{activity_id}"
+
+    api_endpoint
+    |> HTTPotion.delete(authed_req_options(api_endpoint))
+    |> deserialize_response(nil)
+  end
+
   defp conversations_endpoint(service_url) do
     service_url = String.trim_trailing(service_url, "/")
     "#{service_url}/v3/conversations"
