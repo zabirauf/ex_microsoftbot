@@ -19,6 +19,8 @@ defmodule ExMicrosoftBot.Models.ActivityTest do
          attachmentLayout: attachmentLayout,
          membersAdded: membersAdded,
          membersRemoved: membersRemoved,
+         reactionsAdded: reactionsAdded,
+         reactionsRemoved: reactionsRemoved,
          topicName: topicName,
          historyDisclosed: historyDisclosed,
          locale: locale,
@@ -52,6 +54,8 @@ defmodule ExMicrosoftBot.Models.ActivityTest do
           "attachmentLayout" => "flat",
           "membersAdded" => [%{"id" => "someother:id", "name" => "Some Other Name"}],
           "membersRemoved" => [%{"id" => "some:id", "name" => "Some Name"}],
+          "reactionsAdded" => [%{"type" => "heart"}],
+          "reactionsRemoved" => [%{"type" => "heart"}],
           "topicName" => "Potatoes",
           "historyDisclosed" => false,
           "locale" => "en-US",
@@ -128,6 +132,18 @@ defmodule ExMicrosoftBot.Models.ActivityTest do
                }
              ]
 
+      assert reactionsAdded == [
+               %ExMicrosoftBot.Models.Reaction{
+                 type: "heart"
+               }
+             ]
+
+      assert reactionsRemoved == [
+               %ExMicrosoftBot.Models.Reaction{
+                 type: "heart"
+               }
+             ]
+
       assert topicName == "Potatoes"
       assert historyDisclosed == false
       assert locale == "en-US"
@@ -174,6 +190,8 @@ defmodule ExMicrosoftBot.Models.ActivityTest do
        %Activity{
          membersAdded: membersAdded,
          membersRemoved: membersRemoved,
+         reactionsAdded: reactionsAdded,
+         reactionsRemoved: reactionsRemoved,
          attachments: attachments,
          entities: entities,
          suggestedActions: suggestedActions
@@ -181,6 +199,8 @@ defmodule ExMicrosoftBot.Models.ActivityTest do
 
       assert membersAdded == nil
       assert membersRemoved == nil
+      assert reactionsAdded == nil
+      assert reactionsRemoved == nil
       assert attachments == nil
       assert entities == nil
       assert suggestedActions == nil
