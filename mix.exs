@@ -50,7 +50,7 @@ defmodule ExMicrosoftbot.Mixfile do
   end
 
   defp applications(env) when env in [:dev, :prod] do
-    [:logger, :jose, :httpotion, :tzdata, :timex]
+    [:logger, :jose, :httpotion, :tzdata, :timex, :poison]
   end
 
   defp applications(:test) do
