@@ -32,6 +32,7 @@ config :ex_microsoftbot,
   openid_valid_keys_url: "https://login.botframework.com/v1/.well-known/openidconfiguration",
   issuer_claim: "https://api.botframework.com",
   audience_claim: Application.get_env(:ex_microsoftbot, :app_id),
-  disable_token_validation: false
+  disable_token_validation: false,
+  http_client_opts: []
 
-import_config "#{Mix.env}.exs"
+import_config "#{Mix.env()}.exs"

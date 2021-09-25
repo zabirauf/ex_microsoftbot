@@ -50,7 +50,7 @@ defmodule ExMicrosoftbot.Mixfile do
   end
 
   defp applications(env) when env in [:dev, :prod] do
-    [:logger, :jose, :httpotion, :tzdata, :timex, :poison]
+    [:logger, :jose, :tzdata, :timex, :poison]
   end
 
   defp applications(:test) do
@@ -59,7 +59,7 @@ defmodule ExMicrosoftbot.Mixfile do
 
   defp deps do
     [
-      {:httpotion, "~> 3.0.0"},
+      {:httpoison, "~> 1.7"},
       {:poison, "~> 4.0"},
       {:jose, "~> 1.7"},
       {:timex, "~> 3.0"},
@@ -67,7 +67,9 @@ defmodule ExMicrosoftbot.Mixfile do
       {:inch_ex, "~> 2.0.0", only: :docs},
       {:dialyxir, "~> 0.3", only: [:dev]},
       {:ex_doc, "~> 0.19", only: [:dev]},
-      {:bypass, "~> 1.0", only: :test}
+      {:bypass, "~> 1.0", only: :test},
+      # Required by bypass, incompatible with OTP 22 since 2.8.0:
+      {:cowboy, "< 2.8.0", only: :test}
     ]
   end
 end

@@ -30,7 +30,8 @@ defmodule ExMicrosoftBot.Client.ConversationsTest do
                    "\"recipient\":{" <>
                    "\"userPrincipalName\":null,\"tenantId\":null,\"surname\":null,\"objectId\":null," <>
                    "\"name\":\"Jonas\",\"id\":55,\"givenName\":null,\"email\":null" <>
-                   "},\"membersRemoved\":null,\"membersAdded\":null,\"locale\":null," <>
+                   "},\"reactionsRemoved\":null,\"reactionsAdded\":null," <>
+                   "\"membersRemoved\":null,\"membersAdded\":null,\"locale\":null," <>
                    "\"inputHint\":null,\"id\":null,\"historyDisclosed\":null,\"from\":null," <>
                    "\"entities\":null,\"conversation\":null,\"code\":null,\"channelId\":null," <>
                    "\"channelData\":null,\"attachments\":null,\"attachmentLayout\":null," <>
@@ -76,7 +77,8 @@ defmodule ExMicrosoftBot.Client.ConversationsTest do
                    "\"recipient\":{" <>
                    "\"userPrincipalName\":null,\"tenantId\":null,\"surname\":null,\"objectId\":null," <>
                    "\"name\":\"Jonas\",\"id\":55,\"givenName\":null,\"email\":null" <>
-                   "},\"membersRemoved\":null,\"membersAdded\":null,\"locale\":null," <>
+                   "},\"reactionsRemoved\":null,\"reactionsAdded\":null," <>
+                   "\"membersRemoved\":null,\"membersAdded\":null,\"locale\":null," <>
                    "\"inputHint\":null,\"id\":\"12345\",\"historyDisclosed\":null," <>
                    "\"from\":null,\"entities\":null,\"conversation\":null," <>
                    "\"code\":null,\"channelId\":null,\"channelData\":null," <>
