@@ -75,6 +75,21 @@ defmodule ExMicrosoftBot.Models.ActivityTest do
               "type" => "type",
               "name" => "name",
               "supportsDisplay" => false
+            },
+            %{
+              "type" => "clientInfo",
+              "country" => "US",
+              "locale" => "en-US",
+              "platform" => "Linux",
+              "timezone" => "Europe/Lisbon"
+            },
+            %{
+              "type" => "mention",
+              "mentioned" => %{
+                "id" => "aaf330ae-4b72-41a5-ad18-c92d8711eb08",
+                "name" => "John Doe"
+              },
+              "text" => "<at>John Doe</at>"
             }
           ],
           "channelData" => %{
@@ -165,6 +180,21 @@ defmodule ExMicrosoftBot.Models.ActivityTest do
                  type: "type",
                  name: "name",
                  supportsDisplay: false
+               },
+               %ExMicrosoftBot.Models.Entity{
+                 type: "clientInfo",
+                 country: "US",
+                 locale: "en-US",
+                 platform: "Linux",
+                 timezone: "Europe/Lisbon"
+               },
+               %ExMicrosoftBot.Models.Entity{
+                 type: "mention",
+                 mentioned: %ExMicrosoftBot.Models.Entity.Mention{
+                   id: "aaf330ae-4b72-41a5-ad18-c92d8711eb08",
+                   name: "John Doe"
+                 },
+                 text: "<at>John Doe</at>"
                }
              ]
 
