@@ -1,6 +1,9 @@
 defmodule ExMicrosoftBot.Models.Entity do
   @moduledoc """
-  Microsoft bot entity structure
+  Microsoft bot entity structure.
+
+  Depending on the `type` value, different fields in the struct will be used.
+  See defined types for more info.
   """
 
   alias ExMicrosoftBot.Models.Entity.Mention
@@ -8,33 +11,43 @@ defmodule ExMicrosoftBot.Models.Entity do
   @derive [Poison.Encoder]
   defstruct [
     :type,
-
-    # type == "?"
     :name,
     :supportsDisplay,
-
-    # type == "clientInfo"
     :country,
     :locale,
     :platform,
     :timezone,
-
-    # type == "mention"
     :mentioned,
     :text
   ]
 
-  @type t :: %ExMicrosoftBot.Models.Entity{
-          type: String.t(),
-          name: String.t() | nil,
-          supportsDisplay: boolean() | nil,
-          country: String.t() | nil,
-          locale: String.t() | nil,
-          platform: String.t() | nil,
-          timezone: String.t() | nil,
-          mentioned: Mention.t() | nil,
-          text: String.t() | nil
-        }
+  @typedoc """
+  Known types thus far: "clientInfo" & "mention".
+  """
+  @type entity_type :: String.t()
+
+  @type t ::
+          %ExMicrosoftBot.Models.Entity{
+            type: entity_type(),
+            name: String.t() | nil,
+            supportsDisplay: boolean() | nil
+          }
+
+          # type == clientInfo
+          | %ExMicrosoftBot.Models.Entity{
+              type: entity_type(),
+              country: String.t() | nil,
+              locale: String.t() | nil,
+              platform: String.t() | nil,
+              timezone: String.t() | nil
+            }
+
+          # type == "mention"
+          | %ExMicrosoftBot.Models.Entity{
+              type: entity_type(),
+              mentioned: Mention.t() | nil,
+              text: String.t() | nil
+            }
 
   @doc false
   def decoding_map() do
