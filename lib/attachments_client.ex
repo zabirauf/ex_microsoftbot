@@ -10,7 +10,7 @@ defmodule ExMicrosoftBot.Client.Attachments do
 
   @doc """
   Get AttachmentInfo structure describing the attachment views.
-  @see [API Reference](https://docs.botframework.com/en-us/restapi/connector/#!/Attachments/Attachments_GetAttachmentInfo)
+  @see [API Reference](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-connector-api-reference?view=azure-bot-service-4.0#get-attachment-information)
   """
   @spec get_attachment(service_url :: String.t(), attachment_id :: String.t()) ::
           {:ok, Models.AttachmentInfo.t()} | Client.error_type()
@@ -23,14 +23,14 @@ defmodule ExMicrosoftBot.Client.Attachments do
 
   @doc """
   Get the named view as binary content.
-  @see [API Reference](https://docs.botframework.com/en-us/restapi/connector/#!/Attachments/Attachments_GetAttachment)
+  @see [API Reference](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-connector-api-reference?view=azure-bot-service-4.0#get-attachment)
   """
   @spec get_attachment_view(
           service_url :: String.t(),
           attachment_id :: String.t(),
           view_id :: String.t()
         ) ::
-          {:ok, String.t()} | Client.error_type()
+          {:ok, binary()} | Client.error_type()
   def get_attachment_view(service_url, attachment_id, view_id) do
     service_url
     |> attachments_url("/#{attachment_id}/views/#{view_id}")
