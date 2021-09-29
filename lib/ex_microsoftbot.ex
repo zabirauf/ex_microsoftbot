@@ -2,7 +2,7 @@ defmodule ExMicrosoftBot do
   @moduledoc """
   Starts the application for connecting to Microsoft Bot Services.
   Make sure that the application id and password for your bot is set
-  in config as
+  in config as:
 
   ```
   config :ex_microsoftbot,

@@ -1,7 +1,7 @@
 defmodule ExMicrosoftBot.SigningKeysManager do
   use ExMicrosoftBot.RefreshableAgent
 
-  import ExMicrosoftBot.Client, only: [req_options: 0, deserialize_response: 2]
+  import ExMicrosoftBot.Client, only: [opts: 0, deserialize_response: 2]
 
   # Public API
 
@@ -50,7 +50,7 @@ defmodule ExMicrosoftBot.SigningKeysManager do
 
   defp get_json_from_uri(uri) do
     uri
-    |> HTTPotion.get(req_options())
+    |> HTTPoison.get([], opts())
     |> deserialize_response(&Poison.decode!(&1, as: %{}))
   end
 end
