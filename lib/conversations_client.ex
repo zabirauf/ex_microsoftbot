@@ -9,6 +9,11 @@ defmodule ExMicrosoftBot.Client.Conversations do
   alias ExMicrosoftBot.Models
   alias ExMicrosoftBot.Client
 
+  @type pagination_opts :: [
+          page_size: non_neg_integer(),
+          continuation_token: String.t()
+        ]
+
   @doc """
   Create a new Conversation.
 
@@ -88,13 +93,42 @@ defmodule ExMicrosoftBot.Client.Conversations do
   end
 
   @doc """
+  Fetches all members in a conversation, with pagination.
+
+  @see [API Reference](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-connector-api-reference?view=azure-bot-service-4.0#get-conversation-paged-members)
+
+  ## Options
+  * `page_size`: the suggested page size. As the description indicates, this
+                 might not be honored by the BotFramework API (i.e. all members
+                 are returned instead).
+  * `continuation_token`: a token received from a previous request to this API
+                          that indicates the next page.
+
+  *Note:* The REST API reference doesn't mention `page_size` being a suggested
+  value, but empirical testing and the JavaScript SDK docs corroborate it.
+
+  @see [JavaScript SDK docs](https://docs.microsoft.com/en-us/javascript/api/botframework-connector/conversationsgetconversationpagedmembersoptionalparams?view=botbuilder-ts-latest)
+  """
+  @spec get_paged_members(
+          service_url :: String.t(),
+          conversation_id :: String.t(),
+          opts :: pagination_opts()
+        ) :: {:ok, Models.PagedMembersResult.t()} | Client.error_type()
+  def get_paged_members(service_url, conversation_id, opts \\ []) do
+    service_url
+    |> conversations_url("/#{conversation_id}/pagedmembers")
+    |> add_pagination_opts(opts)
+    |> get()
+    |> deserialize_response(&Models.PagedMembersResult.parse/1)
+  end
+
+  @doc """
   This function takes a ConversationId and returns an array of ChannelAccount[]
   objects which are the members of the conversation.
   @see [API Reference](https://docs.botframework.com/en-us/restapi/connector/#!/Conversations/Conversations_GetConversationMembers).
 
   When ActivityId is passed in then it returns the members of the particular
   activity in the conversation.
-
   @see [API Reference](https://docs.botframework.com/en-us/restapi/connector/#!/Conversations/Conversations_GetActivityMembers)
   """
   @spec get_members(
@@ -192,4 +226,27 @@ defmodule ExMicrosoftBot.Client.Conversations do
 
   defp conversations_url(service_url, path),
     do: conversations_url(service_url) <> path
+
+  defp add_pagination_opts(url, []), do: url
+
+  defp add_pagination_opts(url, opts) do
+    query =
+      Enum.reduce(opts, %{}, fn
+        {:page_size, page_size}, query -> Map.put(query, :pageSize, page_size)
+        {:continuation_token, token}, query -> Map.put(query, :continuationToken, token)
+        {unknown, _value}, _query -> raise "unknown pagination param: #{inspect(unknown)}"
+      end)
+
+    url
+    |> URI.parse()
+    |> Map.put(:query, encode_query(query))
+    |> URI.to_string()
+  end
+
+  if Kernel.function_exported?(URI, :encode_query, 2) do
+    # Elixir > v1.12
+    defp encode_query(query), do: URI.encode_query(query, :rfc3986)
+  else
+    defp encode_query(query), do: URI.encode_query(query)
+  end
 end
