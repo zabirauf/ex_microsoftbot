@@ -1,9 +1,9 @@
 defmodule ExMicrosoftBot.Client.ConversationsTest do
   use ExUnit.Case
 
-  import Plug.Conn, only: [read_body: 1, resp: 3, get_req_header: 2]
+  import Plug.Conn, only: [fetch_query_params: 1, read_body: 1, resp: 3, get_req_header: 2]
 
-  alias ExMicrosoftBot.Models.{Activity, ChannelAccount, ResourceResponse}
+  alias ExMicrosoftBot.Models.{Activity, ChannelAccount, PagedMembersResult, ResourceResponse}
   alias ExMicrosoftBot.Client.Conversations
 
   @bypass_port Application.fetch_env!(:ex_microsoftbot, Bypass) |> Keyword.fetch!(:port)
@@ -133,6 +133,73 @@ defmodule ExMicrosoftBot.Client.ConversationsTest do
                  text: "ohai"
                }
              ) == {:ok, ""}
+    end
+  end
+
+  describe "get_paged_members/3" do
+    setup do
+      bypass = Bypass.open(port: @bypass_port)
+      {:ok, bypass: bypass}
+    end
+
+    test "fetches paginated member results", %{bypass: bypass} do
+      Bypass.expect_once(bypass, "GET", "/v3/conversations/xyz/pagedmembers", fn conn ->
+        assert conn |> get_req_header("content-type") |> List.first() == "application/json"
+        assert conn |> get_req_header("accept") |> List.first() == "application/json"
+        assert conn |> get_req_header("authorization") |> List.first() == "Bearer"
+
+        assert {:ok, "", conn} = read_body(conn)
+
+        response =
+          Poison.encode!(%{
+            members: [
+              %{
+                id: "42",
+                name: "James",
+                surname: "Lindy",
+                email: "james@lindy.com"
+              }
+            ],
+            continuationToken: "zzz"
+          })
+
+        resp(conn, 200, response)
+      end)
+
+      assert {:ok, %PagedMembersResult{members: members, continuationToken: token}} =
+               Conversations.get_paged_members("http://localhost:#{@bypass_port}", "xyz")
+
+      assert members == [
+               %ChannelAccount{
+                 id: "42",
+                 name: "James",
+                 surname: "Lindy",
+                 email: "james@lindy.com",
+                 objectId: nil,
+                 userPrincipalName: nil,
+                 tenantId: nil
+               }
+             ]
+
+      assert token == "zzz"
+    end
+
+    test "accepts pagination args", %{bypass: bypass} do
+      Bypass.expect_once(bypass, "GET", "/v3/conversations/xyz/pagedmembers", fn conn ->
+        assert {:ok, "", conn} = read_body(conn)
+
+        %{query_params: query} = fetch_query_params(conn)
+
+        assert query["pageSize"] == "42"
+        assert query["continuationToken"] == "xxx"
+
+        resp(conn, 200, Poison.encode!(%{members: []}))
+      end)
+
+      paging = [page_size: 42, continuation_token: "xxx"]
+
+      assert {:ok, %PagedMembersResult{members: [], continuationToken: nil}} =
+               Conversations.get_paged_members("http://localhost:#{@bypass_port}", "xyz", paging)
     end
   end
 end
